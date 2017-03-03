@@ -85,24 +85,6 @@ public class dbConnetcion {
 		return resultList;
 	}
 	
-	public boolean deleteValue(Connection connection) {
-		try {
-			connection.setAutoCommit(false);
-			String sql = "DELETE FROM anime WHERE THEDATE<?";
-			PreparedStatement stat = connection.prepareStatement(sql);
-			stat.setString(1, "");
-			stat.executeUpdate(sql);
-			connection.commit();
-			stat.close();
-		} catch(SQLException e) {
-			e.printStackTrace();
-
-			return false;
-		}
-		
-		return true;
-	}
-	
 	public boolean createTable(Connection connection) {
 		try {
 			Statement stat = connection.createStatement();
@@ -111,7 +93,7 @@ public class dbConnetcion {
 			 * DESCRIPTION 情報大綱
 			 * LINK 情報連結
 			 */
-			String sql = "CREATE TABLE anime " +
+			String sql = "CREATE TABLE IF NOT EXISTS anime " +
 				"(ID INT AUTOINCREMENT PRIMARY KEY NOT NULL," +
                 " TITLE        TEXT    NOT NULL, " + 
                 " DESCRIPTION  TEXT    NOT NULL, " +
