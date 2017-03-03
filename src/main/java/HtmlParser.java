@@ -1,5 +1,6 @@
 import java.sql.Connection;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -23,12 +24,29 @@ public class HtmlParser {
 				link.get(index).attr("href").toString(),
 				theDat
 			};
-			System.out.println(val[0]);
-			System.out.println(val[1]);
-			System.out.println(val[2]);
-			conn.insertValue(c, val);
+
+			String todayDat = HtmlParser.getTodayDat();
+			if(theDat.equals(todayDat)) {
+				conn.insertValue(c, val);
+			}
 		}
 
 		conn.closeConnection(c);
+	}
+
+	private static String getTodayDat() {
+		ZoneId zoneId = ZoneId.of("Asia/Taipei");
+		LocalDate localDate = LocalDate.now(zoneId);
+		String date = "";
+		int thisYear = localDate.getYear();
+		int thisMonth = localDate.getMonthValue();
+		int thisDay = localDate.getDayOfMonth();
+		date += thisYear;
+		date += "/";
+		date += thisMonth;
+		date += "/";
+		date += thisDay;
+		
+		return date;
 	}
 }

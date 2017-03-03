@@ -1,3 +1,8 @@
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -43,7 +48,7 @@ public class DbConnection {
 		} catch(SQLException e) {
 			e.printStackTrace();
 
-			return false;
+			DbConnection.writeLog(values);
 		}
 
 		return true;
@@ -104,5 +109,22 @@ public class DbConnection {
 		}
 
 		return true;
+	}
+	
+	private static void writeLog(String []val) {
+		ArrayList<String> lines = new ArrayList<String>();
+		Path logFile = Paths.get("./error.log");
+		lines.add(val[2]);
+		lines.add(val[0]);
+		lines.add(val[1]);
+		lines.add("\r\n");
+
+		try {
+			Files.write(logFile, lines, Charset.forName("UTF-8"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("write error log is failed!");
+			e.printStackTrace();
+		}
 	}
 }
