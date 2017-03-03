@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public class dbConnetcion {
+public class DbConnection {
 	
 	public Connection iniConnection() {
 		Connection connection = null; 
@@ -15,7 +15,7 @@ public class dbConnetcion {
 
 		return connection;
 	}
-	
+
 	public boolean closeConnection(Connection connection) {
 		try {
 			connection.close();
@@ -31,7 +31,7 @@ public class dbConnetcion {
 		try {
 			connection.setAutoCommit(false);
 			String sql = "INSERT INTO "+
-					"anime(TITLE, DESCRIPTION, LINK) "+
+					"anime(TITLE, LINK, THEDATE) "+
 					"VALUES(?, ?, ?)";
 			PreparedStatement stat = connection.prepareStatement(sql);
 			stat.setString(1, values[0]);
@@ -59,15 +59,12 @@ public class dbConnetcion {
 		      while(rs.next()) {
 		         String id = String.valueOf(rs.getInt("ID"));
 		         String title = rs.getString("TITLE");
-		         String des  = rs.getString("DESCRIPTION");
 		         String link = rs.getString("LINK");
 		         String dat = rs.getString("THEDATE");
 
 		         resultList.set(index, id);
 		         index++;
 		         resultList.set(index, title);
-		         index++;
-		         resultList.set(index, des);
 		         index++;
 		         resultList.set(index, link);
 		         index++;
@@ -94,11 +91,10 @@ public class dbConnetcion {
 			 * LINK 情報連結
 			 */
 			String sql = "CREATE TABLE IF NOT EXISTS anime " +
-				"(ID INT AUTOINCREMENT PRIMARY KEY NOT NULL," +
-                " TITLE        TEXT    NOT NULL, " + 
-                " DESCRIPTION  TEXT    NOT NULL, " +
+				"(ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " TITLE        TEXT    NOT NULL UNIQUE, " +
                 " THEDATE      DATE    NOT NULL, " +
-                " LINK         TEXT)";
+                " LINK         TEXT    NOT NULL UNIQUE);";
 			stat.executeUpdate(sql);
 			stat.close();
 		} catch (SQLException e) {
@@ -106,7 +102,7 @@ public class dbConnetcion {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
 }

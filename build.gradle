@@ -22,8 +22,9 @@ dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.21'
 	compile 'com.squareup.okhttp3:okhttp:3.6.0'
-	compile 'org.json:json:20160810'
 	compile 'org.jsoup:jsoup:1.10.2'
+	// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+	compile 'org.xerial:sqlite-jdbc:3.8.11.2'
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add

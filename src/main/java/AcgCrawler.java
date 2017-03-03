@@ -15,13 +15,15 @@ import okhttp3.Response;
 
 public class AcgCrawler {
 	final String requestUrls[] = {
-		"http://www.animen.com.tw/NewsArea/NewsList",
-		"http://hkacger.com/",
+		"http://www.animen.com.tw/NewsArea/NewsList"
+	};
+
+	final String loopUrl[] = {
+		"https://www.facebook.com/HKACGerZ",
 		"https://www.facebook.com/PlayStationTaiwan/",
-		"https://news.gamme.com.tw/",
+		"https://news.gamme.com.tw/category/anime/page",
 		"https://www.facebook.com/taipeigameshow/",
 		"https://www.facebook.com/Ubisoft.TWN/",
-		"https://www.ptt.cc/bbs/TypeMoon/index.html",
 		"https://www.facebook.com/gamebase.gb/",
 		"https://www.facebook.com/sppbuy/"
 	};
@@ -31,28 +33,19 @@ public class AcgCrawler {
     public void httpClient() throws IOException {
     	for(int i=0;i<requestUrls.length;i++) {
     		AcgCrawler.index = i;
-    		Thread multiRequest = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					String content;
-					try {
-						content = AcgCrawler.httpRequest(requestUrls[AcgCrawler.index]);
-						if(content.equals("false")) {
-			    			System.out.println(requestUrls[AcgCrawler.index]);
-			    			AcgCrawler.parseContent(content, requestUrls[AcgCrawler.index]);
-			    		} else if(requestUrls[AcgCrawler.index].contains("facebook")) {
-			    			JsonParser.parse(content);
-			    		} else {
-			    			HtmlParser.parse(content, requestUrls[AcgCrawler.index]);
-			    		}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-    			
-    		});
+    		String content;
+			try {
+				content = AcgCrawler.httpRequest(requestUrls[AcgCrawler.index]);
+				if(content.equals("false")) {
+	    			System.out.println(requestUrls[AcgCrawler.index]);
+	    			AcgCrawler.parseContent(content, requestUrls[AcgCrawler.index]);
+	    		} else {
+	    			HtmlParser.parse(content, requestUrls[AcgCrawler.index]);
+	    		}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	}
     }
     

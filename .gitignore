@@ -4,4 +4,6 @@ bin
 .settings
 .classpath
 .project
+*.db
+build/
 
