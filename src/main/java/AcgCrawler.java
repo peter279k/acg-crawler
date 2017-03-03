@@ -41,6 +41,10 @@ public class AcgCrawler {
 						if(content.equals("false")) {
 			    			System.out.println(requestUrls[AcgCrawler.index]);
 			    			AcgCrawler.parseContent(content, requestUrls[AcgCrawler.index]);
+			    		} else if(requestUrls[AcgCrawler.index].contains("facebook")) {
+			    			JsonParser.parse(content);
+			    		} else {
+			    			HtmlParser.parse(content, requestUrls[AcgCrawler.index]);
 			    		}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block

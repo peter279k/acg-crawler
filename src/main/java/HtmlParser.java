@@ -8,7 +8,4 @@ public class HtmlParser {
 		Document doc = Jsoup.parse(content);
 		Elements link = doc.select("a[href]");
 	}
-	
-	public static void parseJson(String content, String url) {
-	}
 }
