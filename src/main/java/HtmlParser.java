@@ -34,7 +34,7 @@ public class HtmlParser {
 		conn.closeConnection(c);
 	}
 
-	private static String getTodayDat() {
+	public static String getTodayDat() {
 		ZoneId zoneId = ZoneId.of("Asia/Taipei");
 		LocalDate localDate = LocalDate.now(zoneId);
 		String date = "";

@@ -15,7 +15,9 @@ import okhttp3.Response;
 
 public class AcgCrawler {
 	final String requestUrls[] = {
-		"http://www.animen.com.tw/NewsArea/NewsList"
+		"http://www.animen.com.tw/NewsArea/NewsList",
+		"https://news.gamme.com.tw/feed",
+		"https://news.gamme.com.tw/category/anime/feed"
 	};
 
 	final String loopUrl[] = {
@@ -40,7 +42,11 @@ public class AcgCrawler {
 	    			System.out.println(requestUrls[AcgCrawler.index]);
 	    			AcgCrawler.parseContent(content, requestUrls[AcgCrawler.index]);
 	    		} else {
-	    			HtmlParser.parse(content, requestUrls[AcgCrawler.index]);
+	    			if(requestUrls[AcgCrawler.index].contains("gamme") == false) {
+	    				XmlParser.parse(content);
+	    			} else {
+	    				HtmlParser.parse(content, requestUrls[AcgCrawler.index]);
+	    			}
 	    		}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
