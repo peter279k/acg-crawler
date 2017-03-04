@@ -1,8 +1,12 @@
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 public class XmlParser {
@@ -10,13 +14,13 @@ public class XmlParser {
 		DbConnection conn = new DbConnection();
 		Connection c = conn.iniConnection();
 		conn.createTable(c);
-		Document doc = Jsoup.parse(contents);
-		Elements pubDate = doc.select("item > pudDate");
-		Elements title = doc.select("item > title");
-		Elements link = doc.select("item > link");
-		
+		Document doc = Jsoup.parse(contents, "", Parser.xmlParser());
+		Elements pubDate = doc.select("pubDate");
+		Elements title = doc.select("title");
+		Elements link = doc.select("link");
+
 		//puDate: Sat, 04 Mar 2017 04:40:08 +0800
-		for(int index=0;index<pubDate.size();index++) {
+		for(int index=1;index<pubDate.size();index++) {
 			String theDat = XmlParser.convertPubDate(pubDate.get(index).text().toString());
 			String val[] = {
 				title.get(index).text().toString(),
@@ -33,11 +37,16 @@ public class XmlParser {
 	
 	private static String convertPubDate(String dates) {
 		StringBuilder buildDate = new StringBuilder();
-		LocalDate localDate = LocalDate.parse(dates);
-		buildDate.append(localDate.getYear() + "/");
-		buildDate.append(localDate.getMonthValue() + "/");
-		buildDate.append(localDate.getDayOfMonth());
-
+		String dat = dates.replace("+0800", "GMT");
+		try {
+		Date localDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH).parse(dat);
+		LocalDate local = new java.sql.Date(localDate.getTime()).toLocalDate();
+		buildDate.append(local.getYear() + "/");
+		buildDate.append(local.getMonthValue() + "/");
+		buildDate.append(local.getDayOfMonth());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		return buildDate.toString();
 	}
 }

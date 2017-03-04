@@ -35,7 +35,7 @@ public class DbConnection {
 	public boolean insertValue(Connection connection, String []values) {
 		try {
 			connection.setAutoCommit(false);
-			String sql = "INSERT INTO "+
+			String sql = "INSERT OR IGNORE INTO "+
 					"anime(TITLE, LINK, THEDATE) "+
 					"VALUES(?, ?, ?)";
 			PreparedStatement stat = connection.prepareStatement(sql);

@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -16,8 +17,8 @@ import okhttp3.Response;
 public class AcgCrawler {
 	final String requestUrls[] = {
 		"http://www.animen.com.tw/NewsArea/NewsList",
-		"https://news.gamme.com.tw/feed",
-		"https://news.gamme.com.tw/category/anime/feed"
+		"http://news.gamme.com.tw/feed",
+		"http://news.gamme.com.tw/category/anime/feed"
 	};
 
 	final String loopUrl[] = {
@@ -42,13 +43,14 @@ public class AcgCrawler {
 	    			System.out.println(requestUrls[AcgCrawler.index]);
 	    			AcgCrawler.parseContent(content, requestUrls[AcgCrawler.index]);
 	    		} else {
-	    			if(requestUrls[AcgCrawler.index].contains("gamme") == false) {
+	    			if(requestUrls[AcgCrawler.index].contains("gamme")) {
 	    				XmlParser.parse(content);
+	    				TimeUnit.SECONDS.sleep(Math.round(Math.random() * 10));
 	    			} else {
 	    				HtmlParser.parse(content, requestUrls[AcgCrawler.index]);
 	    			}
 	    		}
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
