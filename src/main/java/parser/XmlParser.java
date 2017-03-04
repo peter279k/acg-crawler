@@ -1,3 +1,5 @@
+package parser;
+
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -8,6 +10,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
+
+import logger.WriteLog;
+import database.DbConnection;
 
 public class XmlParser {
 	public static void parse(String contents) {
@@ -45,6 +50,7 @@ public class XmlParser {
 		buildDate.append(local.getMonthValue() + "/");
 		buildDate.append(local.getDayOfMonth());
 		} catch(Exception e) {
+			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
 		}
 		return buildDate.toString();

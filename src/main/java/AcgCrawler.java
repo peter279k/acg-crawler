@@ -14,6 +14,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import logger.WriteLog;
+import parser.*;
+
 public class AcgCrawler {
 	final String requestUrls[] = {
 		"http://www.animen.com.tw/NewsArea/NewsList",
@@ -53,6 +56,7 @@ public class AcgCrawler {
 			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				WriteLog.writeErrorLog(e.getMessage().toString());
 			}
     	}
     }
@@ -119,6 +123,7 @@ public class AcgCrawler {
 
     	    return okHttpClient;
     	} catch(Exception e) {
+    		WriteLog.writeErrorLog(e.getMessage().toString());
     		throw new RuntimeException(e);
     	}
     }

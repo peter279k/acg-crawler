@@ -1,9 +1,12 @@
+package parser;
+
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import database.DbConnection;
 
 public class HtmlParser {
 	

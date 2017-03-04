@@ -1,3 +1,5 @@
+package auth;
+
 public class Auth {
 	public String[] getAuth() {
 		String str[] = {

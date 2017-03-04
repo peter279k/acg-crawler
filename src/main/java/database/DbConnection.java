@@ -1,10 +1,8 @@
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+package database;
+
 import java.sql.*;
 import java.util.ArrayList;
+import logger.WriteLog;
 
 public class DbConnection {
 	
@@ -15,6 +13,7 @@ public class DbConnection {
 			connection = DriverManager.getConnection("jdbc:sqlite:anime.db");
 			
 		} catch(Exception e) {
+			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
 		}
 
@@ -26,6 +25,7 @@ public class DbConnection {
 			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
 		}
 
@@ -47,11 +47,32 @@ public class DbConnection {
 			connection.commit();
 		} catch(SQLException e) {
 			e.printStackTrace();
-
-			DbConnection.writeLog(values);
+			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
 
 		return true;
+	}
+	
+	public ArrayList<String>getEmailList(Connection connection) {
+		ArrayList<String> mailList = new ArrayList<String>();
+		Statement stmt = null;
+		try {
+			stmt = connection.createStatement();
+		    ResultSet rs = stmt.executeQuery("SELECT * FROM email;");
+		    while(rs.next()) {
+		    	String id = String.valueOf(rs.getInt("ID"));
+		    	String emailAddr = rs.getString("EMAILADDR");
+		    	
+		    	mailList.add(id);
+		    	mailList.add(emailAddr);
+		    }
+		} catch(SQLException e) {
+			WriteLog.writeErrorLog(e.getMessage().toString());
+			e.printStackTrace();
+
+			return mailList;
+		}
+		return mailList;
 	}
 
 	public ArrayList<String> selectValue(Connection connection) {
@@ -59,26 +80,22 @@ public class DbConnection {
 		Statement stat = null;
 		try {
 			stat = connection.createStatement();
-		      ResultSet rs = stat.executeQuery("SELECT * FROM anime;");
-		      int index = 0;
-		      while(rs.next()) {
-		         String id = String.valueOf(rs.getInt("ID"));
-		         String title = rs.getString("TITLE");
-		         String link = rs.getString("LINK");
-		         String dat = rs.getString("THEDATE");
+			ResultSet rs = stat.executeQuery("SELECT * FROM anime;");
+		    while(rs.next()) {
+		    	String id = String.valueOf(rs.getInt("ID"));
+		        String title = rs.getString("TITLE");
+		        String link = rs.getString("LINK");
+		        String dat = rs.getString("THEDATE");
 
-		         resultList.set(index, id);
-		         index++;
-		         resultList.set(index, title);
-		         index++;
-		         resultList.set(index, link);
-		         index++;
-		         resultList.set(index, dat);
-		         index++;
-		      }
-		      rs.close();
-		      stat.close();
+		        resultList.add(id);
+		        resultList.add(title);
+		        resultList.add(link);
+		        resultList.add(dat);
+		    }
+		    rs.close();
+		    stat.close();
 		} catch(SQLException e) {
+			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
 
 			return resultList;
@@ -104,27 +121,11 @@ public class DbConnection {
 			stat.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
 			return false;
 		}
 
 		return true;
-	}
-	
-	private static void writeLog(String []val) {
-		ArrayList<String> lines = new ArrayList<String>();
-		Path logFile = Paths.get("./error.log");
-		lines.add(val[2]);
-		lines.add(val[0]);
-		lines.add(val[1]);
-		lines.add("\r\n");
-
-		try {
-			Files.write(logFile, lines, Charset.forName("UTF-8"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("write error log is failed!");
-			e.printStackTrace();
-		}
 	}
 }
