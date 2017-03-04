@@ -175,8 +175,17 @@ body, .jqm-demos  {
 	margin-top: -.4em;
 	font-size: 1.8em;
 }
+
+.jqm-content > h3 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	font-size: 1.6em;
+	color: #cc0000;
+	padding-top: .6em;
+	clear:both;
+}
+
 .jqm-content > h2,
-.jqm-content > h3,
 .jqm-content > h4,
 .jqm-home-welcome h2 {
 	font-family: 'Open Sans', sans-serif;

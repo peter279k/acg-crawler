@@ -21,7 +21,14 @@ public class HtmlParser {
 		Elements dat = doc.select("div.news-item-date");
 		for(int index=0;index<title.size();index++) {
 			String []currDat = dat.get(index).text().split(" ");
-			String theDat = currDat[0];
+			String []dates = currDat[0].split("/");
+			if(dates[1].length() == 1) {
+				dates[1] = "0" + dates[1];
+			}
+			if(dates[2].length() == 1) {
+				dates[2] = "0" + dates[2];
+			}
+			String theDat = dates[0] + "-" + dates[1] + "-" + dates[2];
 			String val[] = {
 				title.get(index).text().toString(),
 				link.get(index).attr("href").toString(),
@@ -44,11 +51,20 @@ public class HtmlParser {
 		int thisYear = localDate.getYear();
 		int thisMonth = localDate.getMonthValue();
 		int thisDay = localDate.getDayOfMonth();
+		
 		date += thisYear;
-		date += "/";
-		date += thisMonth;
-		date += "/";
-		date += thisDay;
+		date += "-";
+		if(thisMonth < 10) {
+			date += "0" + thisMonth;
+		} else {
+			date += thisMonth;
+		}
+		date += "-";
+		if(thisDay < 10) {
+			date += "0" + thisDay;
+		} else {
+			date += thisDay;
+		}
 		
 		return date;
 	}

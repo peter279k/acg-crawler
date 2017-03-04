@@ -6,10 +6,11 @@
 <title>ACG 情報訂閱</title>
 <link rel="stylesheet" href="./css/jquery.mobile-1.3.2.min.css">
 <link rel="stylesheet" href="./css/jqm-demos.css">
-<link rel="shortcut icon" href="./css/favicon.ico">
+<link rel="shortcut icon" href="./css/images/favicon.ico">
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
 <script src="./js/jquery.js"></script>
 <script src="./js/index.js"></script>
+<script src="./js/request.js"></script>
 <script src="./js/jquery.mobile-1.3.2.min.js"></script>
 </head>
 <body>
@@ -33,7 +34,7 @@
 		
 		<div style="display: none;"><!-- placeholder for api-popup --></div>
 
-		<ul id="news-lists" data-role="listview" data-inset="true" data-theme="d" data-icon="false" data-filter-placeholder="Search..." class="jqm-list jqm-home-list">
+		<ul id="hot-news-lists" data-role="listview" data-inset="true" data-theme="d" data-icon="false" data-filter-placeholder="Search..." class="jqm-list jqm-home-list">
             <li>
 				<a href="http://demos.jquerymobile.com/1.3.2/intro/">
 					<h2>Introduction</h2>
@@ -48,39 +49,24 @@
 			</li>
         </ul>
 
-		<h2 class="jqm-home-widget">Hot News 最新消息</h2>
+		<h2 class="jqm-home-widget">Recent News 最近一週消息</h2>
 
 		<p class="jqm-intro">資料來源不同，消息可能會重複</p>
-		
-		<ul id="hot-news-list" data-role="listview" data-inset="true" data-theme="d" data-icon="false">
-			<li data-role="list-divider" data-theme="a">123</li>
-			<li>
-				<a href="http://demos.jquerymobile.com/1.3.2/intro/">
-					<h2>Introduction</h2>
-					<p>New to jQuery Mobile? Start here.</p>
-				</a>
-			</li>
-			<li>
-				<a href="http://demos.jquerymobile.com/1.3.2/intro/">
-					<h2>Introduction</h2>
-					<p>New to jQuery Mobile? Start here.</p>
-				</a>
-			</li>
-		</ul>
+
+		<label for="text-basic">請輸入 email address 以完成訂閱/退訂電子報：</label>
+		<input type="email" id="email-addr" name="email-addr" value="">
+		<a id="subscribe-btn" data-role="button" data-theme="b">訂閱</a>
+		<a id="subscribe-btn" data-role="button" data-theme="b">退訂</a>
+		<h3 id="error-msg"></h3>
+		<ul id="news-lists" data-role="listview" data-inset="true" data-theme="d" data-icon="false"></ul>
 		
 
 	</div><!-- /content -->
 
 	<div data-role="footer" class="jqm-footer ui-footer ui-bar-a" role="contentinfo">
-		<p class="jqm-version">Version 1.3.2</p>
-		<p>Copyright 2013 The jQuery Foundation</p>
+		<p class="jqm-version">Version 1.0</p>
+		<p>Copyright 2017 The peter279k</p>
 	</div><!-- /jqm-footer -->
 
-<div class="ui-screen-hidden ui-popup-screen ui-overlay-b" id="api-popup-screen"></div><div class="ui-popup-container ui-popup-hidden" id="api-popup-popup"><div data-role="popup" id="api-popup" class="home-pop ui-content ui-popup ui-body-d ui-overlay-shadow ui-corner-all" data-theme="d" data-overlay-theme="b">
-			<p>The API docs are a separate site from the demos and cover the technical details of each jQuery Mobile plugin in depth.</p>
-			<a href="http://demos.jquerymobile.com/1.3.2/#" data-role="button" data-inline="true" data-rel="back" data-mini="true" data-theme="c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline"><span class="ui-btn-inner"><span class="ui-btn-text">Stay here</span></span></a>
-			<a href="http://api.jquerymobile.com/" class="jqm-button ui-btn ui-btn-up-f ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-icon-right" data-ajax="false" data-role="button" data-inline="true" data-mini="true" data-icon="arrow-r" data-iconpos="right" data-theme="f" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span"><span class="ui-btn-inner"><span class="ui-btn-text">Visit API Site </span><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></span></a>
-		</div></div></div><!-- /page -->
-
-
-<div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div></body></html>
+</div><!-- /page -->
+</body></html>

@@ -3,6 +3,7 @@ package database;
 import java.sql.*;
 import java.util.ArrayList;
 import logger.WriteLog;
+import parser.HtmlParser;
 
 public class DbConnection {
 	
@@ -27,6 +28,26 @@ public class DbConnection {
 			// TODO Auto-generated catch block
 			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
+		}
+
+		return true;
+	}
+	
+	public boolean insertEmailVal(Connection connection, String emailAddr) {
+		try {
+			connection.setAutoCommit(false);
+			String sql = "INSERT OR IGNORE INTO "+
+					"email(EMAIL, CREATEDATE) "+
+					"VALUES(?, ?)";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, emailAddr);
+			stmt.setString(2, HtmlParser.getTodayDat());
+			stmt.executeUpdate();
+			stmt.close();
+			connection.commit();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
 
 		return true;
@@ -75,16 +96,34 @@ public class DbConnection {
 		return mailList;
 	}
 
-	public ArrayList<String> selectValue(Connection connection) {
+	public ArrayList<String> selectValue(Connection connection, String type) {
 		ArrayList<String> resultList = new ArrayList<String>();
 		Statement stat = null;
 		try {
 			stat = connection.createStatement();
-			ResultSet rs = stat.executeQuery("SELECT * FROM anime;");
-		    while(rs.next()) {
+
+			ResultSet rs = null;
+			if(type.equals("hot")) {
+				rs = stat.executeQuery("SELECT * FROM anime WHERE THEDATE = date('now');");
+			} else if(type.equals("weekly")) {
+				rs = stat.executeQuery("SELECT * FROM anime WHERE (julianday('now') - julianday(THEDATE)) <= 7;");
+			} else {
+				rs = stat.executeQuery("SELECT * FROM anime;");
+			}
+			
+			while(rs.next()) {
 		    	String id = String.valueOf(rs.getInt("ID"));
 		        String title = rs.getString("TITLE");
 		        String link = rs.getString("LINK");
+		        if(link.contains("NewsArea")) {
+		        	id = "(Animen)";
+		        	link = "https://www.animen.com.tw" + link;
+		        } else if(link.contains("gamme")){
+		        	id = "宅宅新聞";
+		        } else {
+		        	
+		        }
+
 		        String dat = rs.getString("THEDATE");
 
 		        resultList.add(id);
@@ -102,6 +141,104 @@ public class DbConnection {
 		}
 
 		return resultList;
+	}
+	
+	public ArrayList<String> getAllEmailAddr(Connection connection) {
+		ArrayList<String> resultList = new ArrayList<String>();
+		Statement stat = null;
+		try {
+			stat = connection.createStatement();
+
+			ResultSet rs = null;
+			rs = stat.executeQuery("SELECT EMAIL FROM email;");
+
+			while(rs.next()) {
+				String email = rs.getString("EMAIL");
+				resultList.add(email);
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+			WriteLog.writeErrorLog(e.getMessage().toString());
+		}
+		
+		return resultList;
+	}
+	
+	public String delEmailVal(Connection connection, String emailAddr) {
+		String result = "";
+		try {
+			boolean isMailExist = this.checkMailExist(connection, emailAddr);
+			
+			if(isMailExist == false) {
+				result = "email-address-non-exist";
+			} else {
+
+				String sql = "DELETE FROM email "
+						+ "WHERE EMAIL = ?;";
+				PreparedStatement stat = connection.prepareStatement(sql);
+				stat.setString(1, emailAddr);
+				stat.executeUpdate();
+				stat.close();
+				connection.commit();
+				
+				result = "delete-email-address-success";
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+			WriteLog.writeErrorLog(e.getMessage().toString());
+		}
+		
+		return result;
+	}
+	
+	private boolean checkMailExist(Connection connection, String emailAddr) {
+		boolean res = false;
+		try {
+			ResultSet rs = null;
+			String sql = "SELECT * FROM email "+
+					"WHERE email = ?;";
+			PreparedStatement stat = connection.prepareStatement(sql);
+			stat.setString(1, emailAddr);
+			rs = stat.executeQuery();
+			stat.close();
+			String []email = {"", ""};
+			while(rs.next()) {
+				email[0] = rs.getString("EMAIL");
+				email[1] = rs.getString("CREATEDATE");
+			}
+			
+			if(email[0].length() != 0) {
+				res = true;
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			WriteLog.writeErrorLog(e.getMessage().toString());
+		}
+		
+		return res;
+	}
+	
+	public boolean createEmailTable(Connection connection) {
+		try {
+			Statement stat = connection.createStatement();
+			/*
+			 * EMAIL 情報標題
+			 * CREATEDATE 開始訂閱日期
+			 */
+			String sql = "CREATE TABLE IF NOT EXISTS email " +
+				"(ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " EMAIL        TEXT    NOT NULL UNIQUE, " +
+                " CREATEDATE   DATE    NOT NULL);";
+			stat.executeUpdate(sql);
+			stat.close();
+		} catch(SQLException e) {
+			WriteLog.writeErrorLog(e.getMessage().toString());
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public boolean createTable(Connection connection) {

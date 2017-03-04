@@ -44,15 +44,24 @@ public class XmlParser {
 		StringBuilder buildDate = new StringBuilder();
 		String dat = dates.replace("+0800", "GMT");
 		try {
-		Date localDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH).parse(dat);
-		LocalDate local = new java.sql.Date(localDate.getTime()).toLocalDate();
-		buildDate.append(local.getYear() + "/");
-		buildDate.append(local.getMonthValue() + "/");
-		buildDate.append(local.getDayOfMonth());
+			Date localDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH).parse(dat);
+			LocalDate local = new java.sql.Date(localDate.getTime()).toLocalDate();
+			buildDate.append(local.getYear() + "-");
+			if(local.getMonthValue() >= 10) {
+				buildDate.append(local.getMonthValue() + "-");
+			} else {
+				buildDate.append("0" + local.getMonthValue() + "-");
+			}
+			if(local.getDayOfMonth() >= 10) {
+				buildDate.append(local.getDayOfMonth());
+			} else {
+				buildDate.append("0" + local.getDayOfMonth());
+			}
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
 		}
+
 		return buildDate.toString();
 	}
 }

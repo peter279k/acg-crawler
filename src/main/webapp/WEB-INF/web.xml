@@ -8,6 +8,21 @@
 	</servlet>
 	
 	<servlet>
+		<servlet-name>AnimeNews</servlet-name>
+		<servlet-class>webapp.AnimeNews</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>AnimeHotNews</servlet-name>
+		<servlet-class>webapp.AnimeHotNews</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>EmailHandler</servlet-name>
+		<servlet-class>webapp.EmailHandler</servlet-class>
+	</servlet>
+	
+	<servlet>
 		<servlet-name>ErrorHandler</servlet-name>
         <servlet-class>webapp.ErrorHandler</servlet-class>
 	</servlet>
@@ -15,6 +30,26 @@
 	<servlet-mapping>
 		<servlet-name>IndexPage</servlet-name>
 		<url-pattern>/anime</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AnimeNews</servlet-name>
+		<url-pattern>/anime/news</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>AnimeHotNews</servlet-name>
+		<url-pattern>/anime/hot/news</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>EmailHandler</servlet-name>
+		<url-pattern>/anime/subscribe</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>EmailHandler</servlet-name>
+		<url-pattern>/anime/unsubscribe</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
@@ -26,9 +61,24 @@
 		<error-code>403</error-code>
 		<location>/ErrorHandler</location>
 	</error-page>
+
+	<error-page>
+		<error-code>405</error-code>
+		<location>/ErrorHandler</location>
+	</error-page>
 	
 	<error-page>
 		<error-code>404</error-code>
+		<location>/ErrorHandler</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/ErrorHandler</location>
+	</error-page>
+
+	<error-page>
+		<error-code>503</error-code>
 		<location>/ErrorHandler</location>
 	</error-page>
 
