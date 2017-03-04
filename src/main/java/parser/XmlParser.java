@@ -38,6 +38,8 @@ public class XmlParser {
 				conn.insertValue(c, val);
 			}
 		}
+		
+		conn.closeConnection(c);
 	}
 	
 	private static String convertPubDate(String dates) {

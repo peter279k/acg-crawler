@@ -34,23 +34,28 @@ public class DbConnection {
 	}
 	
 	public boolean insertEmailVal(Connection connection, String emailAddr) {
+		boolean result = true;
 		try {
 			connection.setAutoCommit(false);
-			String sql = "INSERT OR IGNORE INTO "+
-					"email(EMAIL, CREATEDATE) "+
-					"VALUES(?, ?)";
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setString(1, emailAddr);
-			stmt.setString(2, HtmlParser.getTodayDat());
-			stmt.executeUpdate();
-			stmt.close();
-			connection.commit();
+			if(this.checkMailExist(connection, emailAddr)) {
+				result = false;
+			} else {
+				String sql = "INSERT OR IGNORE INTO "+
+						"email(EMAIL, CREATEDATE) "+
+						"VALUES(?, ?)";
+				PreparedStatement stmt = connection.prepareStatement(sql);
+				stmt.setString(1, emailAddr);
+				stmt.setString(2, HtmlParser.getTodayDat());
+				stmt.executeUpdate();
+				stmt.close();
+				connection.commit();
+			}
 		} catch(SQLException e) {
 			e.printStackTrace();
 			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
 
-		return true;
+		return result;
 	}
 	
 	public boolean insertValue(Connection connection, String []values) {
@@ -82,11 +87,14 @@ public class DbConnection {
 		    ResultSet rs = stmt.executeQuery("SELECT * FROM email;");
 		    while(rs.next()) {
 		    	String id = String.valueOf(rs.getInt("ID"));
-		    	String emailAddr = rs.getString("EMAILADDR");
+		    	String emailAddr = rs.getString("EMAIL");
 		    	
 		    	mailList.add(id);
 		    	mailList.add(emailAddr);
 		    }
+		    
+		    rs.close();
+		    stmt.close();
 		} catch(SQLException e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
@@ -172,7 +180,7 @@ public class DbConnection {
 			if(isMailExist == false) {
 				result = "email-address-non-exist";
 			} else {
-
+				connection.setAutoCommit(false);
 				String sql = "DELETE FROM email "
 						+ "WHERE EMAIL = ?;";
 				PreparedStatement stat = connection.prepareStatement(sql);
@@ -195,17 +203,19 @@ public class DbConnection {
 		boolean res = false;
 		try {
 			ResultSet rs = null;
-			String sql = "SELECT * FROM email "+
-					"WHERE email = ?;";
+			String sql = "SELECT * FROM EMAIL "+
+					"WHERE EMAIL = ?;";
 			PreparedStatement stat = connection.prepareStatement(sql);
 			stat.setString(1, emailAddr);
 			rs = stat.executeQuery();
-			stat.close();
 			String []email = {"", ""};
 			while(rs.next()) {
 				email[0] = rs.getString("EMAIL");
 				email[1] = rs.getString("CREATEDATE");
 			}
+			
+			rs.close();
+			stat.close();
 			
 			if(email[0].length() != 0) {
 				res = true;

@@ -26,6 +26,8 @@ public class AnimeHotNews extends HttpServlet{
 		if(resList.size() == 0) {
 			resList.add("empty");
 		}
+		
+		dbConn.closeConnection(conn);
 
 		String json = new Gson().toJson(resList);
 		

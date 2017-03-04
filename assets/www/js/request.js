@@ -1,11 +1,17 @@
 $(function() {
 	requestNews();
 	requestHotNews();
-	
+
 	$("#subscribe-btn").click(function(e) {
 		e.preventDefault = false;
 		var emailAddr = $("#email-addr").val();
 		addEmailAddr(emailAddr);
+	});
+	
+	$("#unsubscribe-btn").click(function(e) {
+		e.preventDefault = false;
+		var emailAddr = $("#email-addr").val();
+		delEmailAddr(emailAddr);
 	});
 
 });
@@ -57,7 +63,14 @@ function requestHotNews() {
 }
 
 function addEmailAddr(emailAddr) {
-	$.post("http://localhost:8080/acg-crawler/anime/subscribe", {"email-addr": emailAddr}, function(response) {
+	$.post("http://localhost:8080/acg-crawler/anime/subscribe", {"action": "subscribe", "email-addr": emailAddr}, function(response) {
+		var json = JSON.parse(JSON.stringify(response));
+		$("#error-msg").html(json["result"]);
+	});
+}
+
+function delEmailAddr(emailAddr) {
+	$.post("http://localhost:8080/acg-crawler/anime/unsubscribe", {"action": "unsubscribe", "email-addr": emailAddr}, function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		$("#error-msg").html(json["result"]);
 	});
