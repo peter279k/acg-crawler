@@ -250,7 +250,7 @@ public class DbConnection {
 		
 		return true;
 	}
-	
+
 	public boolean createTable(Connection connection) {
 		try {
 			Statement stat = connection.createStatement();

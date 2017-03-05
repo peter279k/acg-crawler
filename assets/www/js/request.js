@@ -1,6 +1,10 @@
 $(function() {
 	requestNews();
 	requestHotNews();
+	
+	var date = new Date();
+	var today = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+	$("#this-time").html("今天是：" + today);
 
 	$("#subscribe-btn").click(function(e) {
 		e.preventDefault = false;
@@ -40,7 +44,7 @@ function requestHotNews() {
 	$.get("http://localhost:8080/acg-crawler/anime/hot/news", function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		if(json[0] === "empty") {
-			$("#hot-news-lists").append('<li>尚未有新聞！</li>');
+			$("#hot-news-lists").append('<li>尚未有今日新聞！</li>');
 		} else {
 			var renderStr = "";
 			var checkLen = 1;

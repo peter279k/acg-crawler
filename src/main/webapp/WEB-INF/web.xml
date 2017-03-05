@@ -8,6 +8,11 @@
 	</servlet>
 	
 	<servlet>
+		<servlet-name>StaticPage</servlet-name>
+		<servlet-class>webapp.StaticPage</servlet-class>
+	</servlet>
+	
+	<servlet>
 		<servlet-name>AnimeNews</servlet-name>
 		<servlet-class>webapp.AnimeNews</servlet-class>
 	</servlet>
@@ -30,6 +35,11 @@
 	<servlet-mapping>
 		<servlet-name>IndexPage</servlet-name>
 		<url-pattern>/anime</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>StaticPage</servlet-name>
+		<url-pattern>/assets/www/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

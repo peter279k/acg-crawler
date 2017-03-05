@@ -19,3 +19,15 @@ public class EmailTemplate {
 		return strBuilder.toString();
 	}
 }
+/* contents examle
+ * <tr>
+   <td align='left'>
+   <div class="contentEditableContainer contentTextEditable">
+   <div class="contentEditable" align='center'>
+   	<h2>title1</h2>
+    <h2><a href="">title-link</a></h2>
+   </div>
+   </div>
+   </td>
+   </tr>
+ */

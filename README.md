@@ -9,6 +9,8 @@ A ACG crawler for crawling the ACG news!
 - send email via GMAIL SMTP server
 - (enhancement) crawl more resources
 - finish the Deployment section
+- (security) add CSRF-token for every pages
+- ~~(security) user input validation (email)
 
 # Deployment
 
