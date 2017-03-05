@@ -1,5 +1,7 @@
 import java.io.IOException;
 
+import crawler.AcgCrawler;
+
 /*
  * 流程
  * 發送電子報：在每個禮拜四 (以PHP發電子報)

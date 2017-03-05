@@ -1,4 +1,10 @@
 $(function() {
+	$.ajaxSetup({
+		headers: {
+			"X-CSRFToken": $("#csrf-token").val()
+        }
+    });
+
 	requestNews();
 	requestHotNews();
 	

@@ -41,7 +41,7 @@ public class XmlParser {
 		
 		conn.closeConnection(c);
 	}
-	
+
 	private static String convertPubDate(String dates) {
 		StringBuilder buildDate = new StringBuilder();
 		String dat = dates.replace("+0800", "GMT");

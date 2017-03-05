@@ -6,11 +6,12 @@ import java.time.ZoneId;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
 import database.DbConnection;
 
 public class HtmlParser {
 	
-	public static void parse(String content, String url) {
+	public static void parse(String content) {
 		Document doc = Jsoup.parse(content);
 		DbConnection conn = new DbConnection();
 		Connection c = conn.iniConnection();

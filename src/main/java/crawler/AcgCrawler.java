@@ -1,3 +1,4 @@
+package crawler;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -23,16 +24,6 @@ public class AcgCrawler {
 		"http://news.gamme.com.tw/feed",
 		"http://news.gamme.com.tw/category/anime/feed"
 	};
-
-	final String loopUrl[] = {
-		"https://www.facebook.com/HKACGerZ",
-		"https://www.facebook.com/PlayStationTaiwan/",
-		"https://news.gamme.com.tw/category/anime/page",
-		"https://www.facebook.com/taipeigameshow/",
-		"https://www.facebook.com/Ubisoft.TWN/",
-		"https://www.facebook.com/gamebase.gb/",
-		"https://www.facebook.com/sppbuy/"
-	};
 	
 	private static int index = 0;
 
@@ -48,10 +39,11 @@ public class AcgCrawler {
 	    		} else {
 	    			if(requestUrls[AcgCrawler.index].contains("gamme")) {
 	    				XmlParser.parse(content);
-	    				TimeUnit.SECONDS.sleep(Math.round(Math.random() * 10));
 	    			} else {
-	    				HtmlParser.parse(content, requestUrls[AcgCrawler.index]);
+	    				HtmlParser.parse(content);
 	    			}
+	    			
+	    			TimeUnit.SECONDS.sleep(Math.round(Math.random() * 10 * 2));
 	    		}
 			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -71,14 +63,14 @@ public class AcgCrawler {
     	if(response.isSuccessful() == false) {
     		return String.valueOf(response.isSuccessful());
     	}
-
+    	
     	return response.body().string();
     }
-    
+
     private static void parseContent(String content, String url) {
-    	HtmlParser.parse(content, url);
+    	HtmlParser.parse(content);
     }
-    
+
     private static OkHttpClient unsafeHttpClient() {
     	try {
     		final TrustManager []trustAllCert = new TrustManager[] {

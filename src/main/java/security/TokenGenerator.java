@@ -13,12 +13,12 @@ public class TokenGenerator implements CsrfTokenRepository {
 	
 	private int cookieMaxAge = 300;
 	private String parameterName = "X-CSRF-Token";
-	private String headerName = "X-CSRF";
+	private String headerName = "X-CSRFToken";
 	private RandomValueStringGenerator generator = new RandomValueStringGenerator(10); 
 
     public int getCookieMaxAge() { 
         return this.cookieMaxAge; 
-    } 
+    }
  
     public void setCookieMaxAge(int cookieMaxAge) { 
         this.cookieMaxAge = cookieMaxAge; 
