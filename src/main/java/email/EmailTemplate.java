@@ -1,4 +1,5 @@
 package email;
+
 public class EmailTemplate {
 	public String generate(String contents) {
 		StringBuilder strBuilder = new StringBuilder();
