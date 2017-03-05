@@ -22,7 +22,7 @@ public class AcgCrawler {
 	final String requestUrls[] = {
 		"http://www.animen.com.tw/NewsArea/NewsList",
 		"http://news.gamme.com.tw/feed",
-		"http://news.gamme.com.tw/category/anime/feed"
+		"http://news.gamme.com.tw/category/anime/feed",
 	};
 	
 	private static int index = 0;
