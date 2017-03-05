@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.security.web.csrf.CsrfToken;
 
 import com.google.gson.Gson;
@@ -32,7 +33,10 @@ public class EmailHandler extends HttpServlet{
 		} else {
 			String emailAddr = req.getParameter("email-addr");
 			String emailAction = req.getParameter("action");
-
+			
+			emailAddr = StringEscapeUtils.escapeHtml4(emailAddr);
+			emailAction = StringEscapeUtils.escapeHtml4(emailAction);
+			
 			if(emailAddr.length() == 0) {
 				resList.put("result", "請輸入email！");
 			} else if(this.checkMail(emailAddr) == false) {

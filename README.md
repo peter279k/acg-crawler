@@ -14,7 +14,7 @@ A ACG crawler for crawling the ACG news!
 ~~- (security) user input validation (email)
 
 # Requirement
-- JAVA: 1.8(recommendation)
+- JAVA: 1.7+(recommendation version is 1.8)
 - Apache Tomcat 7 (version 8 is not sure to be worked well...)
 
 # Deployment

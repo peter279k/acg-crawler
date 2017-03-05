@@ -13,6 +13,5 @@ public class FacebookPageCrawler {
 	};
 
 	public static void crawl() {
-		
 	}
 }
