@@ -2,13 +2,13 @@
 A ACG crawler for crawling the ACG news!
 
 # To do lists
-~~- subscribe page
+~~- subscribe page~~
 
-~~- unscribe page
+~~- unscribe page~~
 
-~~- store subscribed email lists
+~~- store subscribed email lists~~
 
-~~- get subscribed email lists
+~~- get subscribed email lists~~
 
 - send email via GMAIL SMTP server
 
@@ -17,9 +17,9 @@ A ACG crawler for crawling the ACG news!
 - finish the Deployment section
 
 ~~- (security) add CSRF-token for every pages
-(Including AnimeNews, AnimeHotNews, unscribe/subscribe email address)
+(Including AnimeNews, AnimeHotNews, unscribe/subscribe email address)~~
 
-~~- (security) user input validation (email)
+~~- (security) user input validation (email)~~
 
 # Requirement
 - JAVA: 1.7+(recommendation version is 1.8)
