@@ -10,7 +10,6 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
 
 public class TokenGenerator implements CsrfTokenRepository {
-	
 	private int cookieMaxAge = 300;
 	private String parameterName = "X-CSRF-Token";
 	private String headerName = "X-CSRFToken";
@@ -19,35 +18,35 @@ public class TokenGenerator implements CsrfTokenRepository {
     public int getCookieMaxAge() { 
         return this.cookieMaxAge; 
     }
- 
+
     public void setCookieMaxAge(int cookieMaxAge) { 
         this.cookieMaxAge = cookieMaxAge; 
     } 
-	
+
 	public void setHeaderName(String name) {
 		this.headerName = name;
 	}
-	
+
 	public String getHeaderName() {
 		return this.headerName;
 	}
-	
+
 	public String getParameterName() { 
         return this.parameterName; 
     } 
- 
+
     public void setParameterName(String parameterName) { 
         this.parameterName = parameterName; 
     } 
-	
+
 	public void setGenerator(RandomValueStringGenerator generator) { 
 	    this.generator = generator; 
 	}
-	
+
 	public RandomValueStringGenerator getGenerator() { 
 		return this.generator; 
 	} 
-	
+
 	@Override
 	public CsrfToken generateToken(HttpServletRequest request) {
 		// TODO Auto-generated method stub

@@ -23,7 +23,7 @@ public class IndexPage extends HttpServlet {
     	TokenGenerator csrf = new TokenGenerator();
     	CsrfToken token = csrf.generateToken(req);
     	csrf.saveToken(token, req, resp);
-    	
+
     	Path indexPath = Paths.get("./assets/www/index.html");
     	List<String>contents = Files.readAllLines(indexPath, Charset.forName("UTF-8"));
     	String output = "";

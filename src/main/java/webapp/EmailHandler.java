@@ -33,10 +33,10 @@ public class EmailHandler extends HttpServlet{
 		} else {
 			String emailAddr = req.getParameter("email-addr");
 			String emailAction = req.getParameter("action");
-			
+
 			emailAddr = StringEscapeUtils.escapeHtml4(emailAddr);
 			emailAction = StringEscapeUtils.escapeHtml4(emailAction);
-			
+
 			if(emailAddr.length() == 0) {
 				resList.put("result", "請輸入email！");
 			} else if(this.checkMail(emailAddr) == false) {
@@ -75,7 +75,7 @@ public class EmailHandler extends HttpServlet{
 		resp.setHeader("Content-Type", "application/json; charset=utf-8");
 		resp.getWriter().println(json);
     }
-	
+
 	private boolean checkMail(String emailAddr) {
 		boolean result = true;
 		   try {

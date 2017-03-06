@@ -22,13 +22,13 @@ public class StaticPage extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
     	String filePath = "./assets/www/" + req.getPathInfo();
-    	
+
     	String output = "";
     	if(filePath.contains("images")) {
     		File f = new File(filePath);
     		BufferedImage bi = ImageIO.read(f);
     		OutputStream outputStream = resp.getOutputStream();
-    		
+
     		if(filePath.contains("ico")) {
     			resp.setHeader("Content-Type", "image/png");
     			ImageIO.write(bi, "png", outputStream);
@@ -44,7 +44,7 @@ public class StaticPage extends HttpServlet {
     		for(int index=0;index<contents.size();index++) {
         		output += contents.get(index);
         	}
-    		
+
     		if(filePath.contains("css")) {
     			resp.setHeader("Content-Type", "text/css; charset=utf-8");
     		} else if(filePath.contains("js")) {

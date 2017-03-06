@@ -10,13 +10,12 @@ import org.jsoup.select.Elements;
 import database.DbConnection;
 
 public class HtmlParser {
-	
 	public static void parse(String content) {
 		Document doc = Jsoup.parse(content);
 		DbConnection conn = new DbConnection();
 		Connection c = conn.iniConnection();
 		conn.createTable(c);
-		
+
 		Elements title = doc.select("div.news-item-title");
 		Elements link = doc.select("div.news-item-title > a");
 		Elements dat = doc.select("div.news-item-date");
@@ -52,7 +51,7 @@ public class HtmlParser {
 		int thisYear = localDate.getYear();
 		int thisMonth = localDate.getMonthValue();
 		int thisDay = localDate.getDayOfMonth();
-		
+
 		date += thisYear;
 		date += "-";
 		if(thisMonth < 10) {
@@ -60,13 +59,14 @@ public class HtmlParser {
 		} else {
 			date += thisMonth;
 		}
+
 		date += "-";
 		if(thisDay < 10) {
 			date += "0" + thisDay;
 		} else {
 			date += thisDay;
 		}
-		
+
 		return date;
 	}
 }

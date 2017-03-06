@@ -1,4 +1,5 @@
 package crawler;
+
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -23,22 +24,25 @@ public class AcgCrawler {
 		"http://www.animen.com.tw/NewsArea/NewsList",
 		"http://news.gamme.com.tw/feed",
 		"http://news.gamme.com.tw/category/anime/feed",
+		"https://gnn.gamer.com.tw/rss.xml"
 	};
-	
+
 	private static int index = 0;
 
     public void httpClient() throws IOException {
     	for(int i=0;i<requestUrls.length;i++) {
     		AcgCrawler.index = i;
     		String content;
+
 			try {
 				content = AcgCrawler.httpRequest(requestUrls[AcgCrawler.index]);
 				if(content.equals("false")) {
-	    			System.out.println(requestUrls[AcgCrawler.index]);
-	    			AcgCrawler.parseContent(content, requestUrls[AcgCrawler.index]);
+	    			WriteLog.writeErrorLog(requestUrls[AcgCrawler.index]);
 	    		} else {
 	    			if(requestUrls[AcgCrawler.index].contains("gamme")) {
 	    				XmlParser.parse(content);
+	    			} else if(requestUrls[AcgCrawler.index].contains("rss.xml")) {
+	    				XmlParser.parseGammer(content);
 	    			} else {
 	    				HtmlParser.parse(content);
 	    			}
@@ -52,23 +56,28 @@ public class AcgCrawler {
 			}
     	}
     }
-    
+
     private static String httpRequest(String reqUrl) throws IOException {
+    	String responseStr = "";
     	OkHttpClient client = AcgCrawler.unsafeHttpClient();
     	Request request = new Request.Builder()
     			.url(reqUrl)
     			.build();
     	Response response = client.newCall(request).execute();
-    	
+
     	if(response.isSuccessful() == false) {
     		return String.valueOf(response.isSuccessful());
     	}
-    	
-    	return response.body().string();
-    }
 
-    private static void parseContent(String content, String url) {
-    	HtmlParser.parse(content);
+    	if(reqUrl.contains("rss.xml")) {
+    		responseStr = new String(response.body().bytes(), "big5");
+    	} else {
+    		responseStr = response.body().string();
+    	}
+
+    	response.body().close();
+
+    	return responseStr;
     }
 
     private static OkHttpClient unsafeHttpClient() {

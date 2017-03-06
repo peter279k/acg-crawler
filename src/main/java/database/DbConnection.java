@@ -2,17 +2,24 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import org.sqlite.SQLiteConfig;
+import org.sqlite.SQLiteConfig.SynchronousMode;
+
 import logger.WriteLog;
 import parser.HtmlParser;
 
 public class DbConnection {
-	
 	public Connection iniConnection() {
 		Connection connection = null; 
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connection = DriverManager.getConnection("jdbc:sqlite:anime.db");
-			
+			SQLiteConfig sqlConfig = new SQLiteConfig();
+			sqlConfig.setEncoding(SQLiteConfig.Encoding.UTF8);
+			sqlConfig.setPageSize(5120);
+			sqlConfig.setSynchronous(SynchronousMode.NORMAL);
+			connection = DriverManager.getConnection("jdbc:sqlite:anime.db", sqlConfig.toProperties());
+
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
@@ -32,7 +39,7 @@ public class DbConnection {
 
 		return true;
 	}
-	
+
 	public boolean insertEmailVal(Connection connection, String emailAddr) {
 		boolean result = true;
 		try {
@@ -57,7 +64,7 @@ public class DbConnection {
 
 		return result;
 	}
-	
+
 	public boolean insertValue(Connection connection, String []values) {
 		try {
 			connection.setAutoCommit(false);
@@ -78,7 +85,7 @@ public class DbConnection {
 
 		return true;
 	}
-	
+
 	public ArrayList<String>getEmailList(Connection connection) {
 		ArrayList<String> mailList = new ArrayList<String>();
 		Statement stmt = null;
@@ -92,7 +99,7 @@ public class DbConnection {
 		    	mailList.add(id);
 		    	mailList.add(emailAddr);
 		    }
-		    
+
 		    rs.close();
 		    stmt.close();
 		} catch(SQLException e) {
@@ -118,7 +125,7 @@ public class DbConnection {
 			} else {
 				rs = stat.executeQuery("SELECT * FROM anime;");
 			}
-			
+
 			while(rs.next()) {
 		    	String id = String.valueOf(rs.getInt("ID"));
 		        String title = rs.getString("TITLE");
@@ -150,7 +157,7 @@ public class DbConnection {
 
 		return resultList;
 	}
-	
+
 	public ArrayList<String> getAllEmailAddr(Connection connection) {
 		ArrayList<String> resultList = new ArrayList<String>();
 		Statement stat = null;
@@ -168,43 +175,41 @@ public class DbConnection {
 			e.printStackTrace();
 			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
-		
+
 		return resultList;
 	}
-	
+
 	public String delEmailVal(Connection connection, String emailAddr) {
 		String result = "";
 		try {
 			boolean isMailExist = this.checkMailExist(connection, emailAddr);
-			
+
 			if(isMailExist == false) {
 				result = "email-address-non-exist";
 			} else {
 				connection.setAutoCommit(false);
-				String sql = "DELETE FROM email "
-						+ "WHERE EMAIL = ?;";
+				String sql = "DELETE FROM email WHERE EMAIL = ?;";
 				PreparedStatement stat = connection.prepareStatement(sql);
 				stat.setString(1, emailAddr);
 				stat.executeUpdate();
 				stat.close();
 				connection.commit();
-				
+
 				result = "delete-email-address-success";
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
 			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
-		
+
 		return result;
 	}
-	
+
 	private boolean checkMailExist(Connection connection, String emailAddr) {
 		boolean res = false;
 		try {
 			ResultSet rs = null;
-			String sql = "SELECT * FROM EMAIL "+
-					"WHERE EMAIL = ?;";
+			String sql = "SELECT * FROM EMAIL WHERE EMAIL = ?;";
 			PreparedStatement stat = connection.prepareStatement(sql);
 			stat.setString(1, emailAddr);
 			rs = stat.executeQuery();
@@ -213,22 +218,22 @@ public class DbConnection {
 				email[0] = rs.getString("EMAIL");
 				email[1] = rs.getString("CREATEDATE");
 			}
-			
+
 			rs.close();
 			stat.close();
-			
+
 			if(email[0].length() != 0) {
 				res = true;
 			}
-			
+
 		} catch(SQLException e) {
 			e.printStackTrace();
 			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
-		
+
 		return res;
 	}
-	
+
 	public boolean createEmailTable(Connection connection) {
 		try {
 			Statement stat = connection.createStatement();
@@ -247,7 +252,7 @@ public class DbConnection {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
 

@@ -21,7 +21,7 @@ public class AnimeHotNews extends HttpServlet{
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
-		
+
 		TokenGenerator csrf = new TokenGenerator();
 		CsrfToken checkToken = csrf.loadToken(req);
 		ArrayList<String> resList = new ArrayList<String>();;
@@ -36,10 +36,10 @@ public class AnimeHotNews extends HttpServlet{
 			if(resList.size() == 0) {
 				resList.add("empty");
 			}
-		
+
 			dbConn.closeConnection(conn);
 		}
-		
+
 		String json = new Gson().toJson(resList);
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("Accept", "application/json");

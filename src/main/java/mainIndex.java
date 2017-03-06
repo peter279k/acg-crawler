@@ -8,7 +8,6 @@ import crawler.AcgCrawler;
  * 發送完之後，就 DROP TABLE
  */
 public class mainIndex {
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AcgCrawler crawler = new AcgCrawler();
