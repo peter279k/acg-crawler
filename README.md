@@ -41,7 +41,7 @@ We assume that we have installed the JSP environment in our target host.
 - Remember to copy the ```assets``` folder to the WEB-INF folder in WAR file.
 - Remember to move the runnable jar file and ```auth.ini``` in the same directory path.
 - set the crontab command: ```java -jar /path/to/acg-crawler.jar crawler``` to crawl data your specified time.
-- set the crontab command: ```java -jar /path/to/acg-crawler.jar send-email``` to send newsletter every Thursday.
+- set the crontab command: ```java -jar /path/to/acg-crawler.jar send-email``` to send newsletter every day.
 - set the crotab command: ```java -jar /path/to/acg-crawler.jar send-error-log``` to send the error log mail via Mailgun API.
 
 - enjoy it!
