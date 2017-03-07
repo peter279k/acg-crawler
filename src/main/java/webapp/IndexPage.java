@@ -1,6 +1,10 @@
 package webapp;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,11 +28,22 @@ public class IndexPage extends HttpServlet {
     	CsrfToken token = csrf.generateToken(req);
     	csrf.saveToken(token, req, resp);
 
-    	Path indexPath = Paths.get("./assets/www/index.html");
-    	List<String>contents = Files.readAllLines(indexPath, Charset.forName("UTF-8"));
+    	String filePath = "./assets/www/index.html";
+    	File htmlFilePath = new File(filePath);
     	String output = "";
-    	for(int index=0;index<contents.size();index++) {
-    		output += contents.get(index);
+    	if(htmlFilePath.exists() == false) {
+    		InputStream is = getServletContext().getResourceAsStream("/WEB-INF/assets/www/index.html");
+    		BufferedReader b = new BufferedReader( new InputStreamReader( is ));
+    		String str = "";
+    		while((str = b.readLine()) != null) {
+    			output += str;
+    		}
+    	} else {
+    		Path indexPath = Paths.get(filePath);
+    		List<String>contents = Files.readAllLines(indexPath, Charset.forName("UTF-8"));
+    		for(int index=0;index<contents.size();index++) {
+    			output += contents.get(index);
+    		}
     	}
 
     	resp.setHeader("Content-Type", "text/html; charset=utf-8");

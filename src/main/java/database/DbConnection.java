@@ -1,5 +1,6 @@
 package database;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -18,8 +19,12 @@ public class DbConnection {
 			sqlConfig.setEncoding(SQLiteConfig.Encoding.UTF8);
 			sqlConfig.setPageSize(5120);
 			sqlConfig.setSynchronous(SynchronousMode.NORMAL);
-			connection = DriverManager.getConnection("jdbc:sqlite:anime.db", sqlConfig.toProperties());
-
+			File file = new File("./anime.db");
+			if(file.exists()) {
+				connection = DriverManager.getConnection("jdbc:sqlite:anime.db", sqlConfig.toProperties());
+			} else {
+				connection = DriverManager.getConnection("jdbc:sqlite:/home/lee/workspace(java)/acg-crawler/anime.db", sqlConfig.toProperties());
+			}
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();

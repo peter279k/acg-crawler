@@ -1,8 +1,11 @@
 package webapp;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -22,28 +25,44 @@ public class StaticPage extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
     	String filePath = "./assets/www/" + req.getPathInfo();
+    	File f = new File(filePath);
 
     	String output = "";
     	if(filePath.contains("images")) {
-    		File f = new File(filePath);
-    		BufferedImage bi = ImageIO.read(f);
-    		OutputStream outputStream = resp.getOutputStream();
-
-    		if(filePath.contains("ico")) {
-    			resp.setHeader("Content-Type", "image/png");
-    			ImageIO.write(bi, "png", outputStream);
+    		BufferedImage bi = null;
+    		if(f.exists()) {
+    			bi = ImageIO.read(f);
     		} else {
-    			resp.setHeader("Content-Type", "image/gif");
-    			ImageIO.write(bi, "gif", outputStream);
+    			InputStream is = getServletContext().getResourceAsStream("/WEB-INF/assets/www/" + req.getPathInfo());
+    			bi = ImageIO.read(is);
     		}
+
+			OutputStream outputStream = resp.getOutputStream();
+
+			if(filePath.contains("ico")) {
+				resp.setHeader("Content-Type", "image/png");
+				ImageIO.write(bi, "png", outputStream);
+			} else {
+				resp.setHeader("Content-Type", "image/gif");
+				ImageIO.write(bi, "gif", outputStream);
+			}
 
             outputStream.close();
     	} else {
-    		Path indexPath = Paths.get(filePath);
-    		List<String>contents = Files.readAllLines(indexPath, Charset.forName("UTF-8"));
-    		for(int index=0;index<contents.size();index++) {
-        		output += contents.get(index);
-        	}
+    		if(f.exists()) {
+    			Path indexPath = Paths.get(filePath);
+    			List<String>contents = Files.readAllLines(indexPath, Charset.forName("UTF-8"));
+    			for(int index=0;index<contents.size();index++) {
+    				output += contents.get(index);
+    			}
+    		} else {
+    			InputStream is = getServletContext().getResourceAsStream("/WEB-INF/assets/www/" + req.getPathInfo());
+        		BufferedReader b = new BufferedReader( new InputStreamReader( is ));
+        		String str = "";
+        		while((str = b.readLine()) != null) {
+        			output += str;
+        		}
+    		}
 
     		if(filePath.contains("css")) {
     			resp.setHeader("Content-Type", "text/css; charset=utf-8");
