@@ -34,15 +34,15 @@ We assume that we have installed the JSP environment in our target host.
 
 - target host: VPS (recommendation)
 - clone the repo
-- install the gradle (```sudo apt-get install gradle```)) 
+- install the gradle (```sudo apt-get install gradle```) 
 - using the command ```gradle tomcatRunWar``` to generate the ```acg-crawler.war```.i(The war file is in the /path/to/acg-crawler/build/libs)
 - create the ```Auth.ini``` to set the SQLite databse path, Mailgun info and GMAIL info.
 - export the runnable ```acg-crawler.jar```.
 - Remember to copy the ```assets``` folder to the WEB-INF folder in WAR file.
 - Remember to move the runnable jar file and ```auth.ini``` in the same directory path.
-- set the crontab command: ```java -jar /path/to/acg-crawler.jar crawler``` to crawl data every time you specified.
+- set the crontab command: ```java -jar /path/to/acg-crawler.jar crawler``` to crawl data your specified time.
 - set the crontab command: ```java -jar /path/to/acg-crawler.jar send-email``` to send newsletter every Thursday.
-- set the crotab command: ```java -jat /path/to/acg-crawler.jar send-error-log``` to send the error log mail via Mailgun API.
+- set the crotab command: ```java -jar /path/to/acg-crawler.jar send-error-log``` to send the error log mail via Mailgun API.
 
 - enjoy it!
 
