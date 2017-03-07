@@ -24,7 +24,7 @@ public class DbConnection {
 			if(file.exists()) {
 				connection = DriverManager.getConnection("jdbc:sqlite:anime.db", sqlConfig.toProperties());
 			} else {
-				connection = DriverManager.getConnection("jdbc:sqlite:" + new Auth().getAuth(), sqlConfig.toProperties());
+				connection = DriverManager.getConnection("jdbc:sqlite:" + new Auth().getAuth().get("path"), sqlConfig.toProperties());
 			}
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
