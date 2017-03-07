@@ -12,6 +12,10 @@ A ACG crawler for crawling the ACG news!
 
 - send email via GMAIL SMTP server
 
+~~- send email via MailGun API~~
+
+~~- send log email via MailGun API~~
+
 - (enhancement) crawl more resources
 
 - finish the Deployment section

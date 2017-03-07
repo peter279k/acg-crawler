@@ -135,8 +135,9 @@ public class DbConnection {
 		        	link = "https://www.animen.com.tw" + link;
 		        } else if(link.contains("gamme")){
 		        	id = "宅宅新聞";
+		        } else if(link.contains("gamer")) {
+		        	id = "巴哈姆特";
 		        } else {
-		        	
 		        }
 
 		        String dat = rs.getString("THEDATE");
@@ -153,27 +154,6 @@ public class DbConnection {
 			e.printStackTrace();
 
 			return resultList;
-		}
-
-		return resultList;
-	}
-
-	public ArrayList<String> getAllEmailAddr(Connection connection) {
-		ArrayList<String> resultList = new ArrayList<String>();
-		Statement stat = null;
-		try {
-			stat = connection.createStatement();
-
-			ResultSet rs = null;
-			rs = stat.executeQuery("SELECT EMAIL FROM email;");
-
-			while(rs.next()) {
-				String email = rs.getString("EMAIL");
-				resultList.add(email);
-			}
-		} catch(SQLException e) {
-			e.printStackTrace();
-			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
 
 		return resultList;

@@ -6,5 +6,5 @@ bin
 .project
 *.db
 build/
-auth.txt
+auth.ini
 
