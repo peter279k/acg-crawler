@@ -36,7 +36,7 @@ A ACG crawler for crawling the ACG news!
 - build the gradle to install the required libraries/pakcages.
 - edit the ```java Auth.java``` to modify the GMAIL account and password.
 - export the WAR file
-- set the crontab for AcgCrawler to crawl data every your specified time.
+- set the crontab for AcgCrawler to crawl data every time you specified.
 - set the crontab for SendMail to send newsletter every week.
 - enjoy it!
 
