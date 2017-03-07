@@ -76,7 +76,7 @@ public class SendMail {
 				WriteLog.writeErrorLog(respStr);
 			} else {
 				Gson gson = new GsonBuilder().create();
-				String jsonStr = response.body().string().toString();
+				String jsonStr = respStr;
 				SendMail.msgList = gson.fromJson(jsonStr, MailGunMsg.class);
 				System.out.println(SendMail.msgList);
 			}

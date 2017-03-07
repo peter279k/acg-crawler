@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteConfig.SynchronousMode;
 
+import auth.Auth;
 import logger.WriteLog;
 import parser.HtmlParser;
 
@@ -23,7 +24,7 @@ public class DbConnection {
 			if(file.exists()) {
 				connection = DriverManager.getConnection("jdbc:sqlite:anime.db", sqlConfig.toProperties());
 			} else {
-				connection = DriverManager.getConnection("jdbc:sqlite:/home/lee/workspace(java)/acg-crawler/anime.db", sqlConfig.toProperties());
+				connection = DriverManager.getConnection("jdbc:sqlite:" + new Auth().getAuth(), sqlConfig.toProperties());
 			}
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
@@ -98,10 +99,7 @@ public class DbConnection {
 			stmt = connection.createStatement();
 		    ResultSet rs = stmt.executeQuery("SELECT * FROM email;");
 		    while(rs.next()) {
-		    	String id = String.valueOf(rs.getInt("ID"));
 		    	String emailAddr = rs.getString("EMAIL");
-		    	
-		    	mailList.add(id);
 		    	mailList.add(emailAddr);
 		    }
 

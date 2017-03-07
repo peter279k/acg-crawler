@@ -43,7 +43,7 @@ public class EmailTemplate {
 		DbConnection dbConn = new DbConnection();
 		Connection conn = dbConn.iniConnection();
 
-		return dbConn.selectValue(conn, "weekly");
+		return dbConn.selectValue(conn, "hot");
 
 	}
 }
