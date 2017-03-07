@@ -31,8 +31,21 @@ public class Auth {
 					}
 					list.put(arr[0], arr[1]);
 					if(authList.size() < (index+1)
-						&& authList.get(index+1).isEmpty() == false
-						&& authList.get(index+1).contains("=") == false) {
+						|| authList.get(index+1).isEmpty() == false
+						|| authList.get(index+1).contains("=") == false) {
+						stat = "";
+					}
+				} else if(authList.get(index).contains("SQLite")) {
+					stat = "SQLite";
+				} else if(stat.equals("SQLite")) {
+					String []arr = authList.get(index).split("=");
+					if(arr.length != 2) {
+						continue;
+					}
+					list.put(arr[0], arr[1]);
+					if(authList.size() < (index+1)
+						|| authList.get(index+1).isEmpty() == false
+						|| authList.get(index+1).contains("=") == false) {
 						stat = "";
 					}
 				} else {
