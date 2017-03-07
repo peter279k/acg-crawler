@@ -38,7 +38,7 @@ We assume that we have installed the JSP environment in our target host.
 - using the command ```gradle tomcatRunWar``` to generate the ```acg-crawler.war```.i(The war file is in the /path/to/acg-crawler/build/libs)
 - create the ```Auth.ini``` to set the SQLite databse path, Mailgun info and GMAIL info.
 - export the runnable ```acg-crawler.jar```.
-- Remember to copy the ```assets``` folder to the WEB-INF folder in WAR file.
+- Remember to copy the ```assets``` folder and ```auth.ini``` file to the WEB-INF folder in WAR file.
 - Remember to move the runnable jar file and ```auth.ini``` in the same directory path.
 - set the crontab command: ```java -jar /path/to/acg-crawler.jar crawler``` to crawl data your specified time.
 - set the crontab command: ```java -jar /path/to/acg-crawler.jar send-email``` to send newsletter every day.
