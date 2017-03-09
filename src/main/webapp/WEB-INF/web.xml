@@ -37,7 +37,7 @@
 
 	<servlet-mapping>
 		<servlet-name>IndexPage</servlet-name>
-		<url-pattern>/anime</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

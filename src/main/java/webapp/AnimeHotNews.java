@@ -27,7 +27,7 @@ public class AnimeHotNews extends HttpServlet{
 		ArrayList<String> resList = new ArrayList<String>();;
 
 		if(checkToken == null) {
-			resList.add("missing or invalid csrf-token!");
+			resList.add("連線逾時，請重新整理！");
 		} else {
 			DbConnection dbConn = new DbConnection();
 			Connection conn = dbConn.iniConnection();

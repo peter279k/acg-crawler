@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import parser.HtmlParser;
 
 public class WriteLog {
+	private static String prefixPath = "/home/tomcat7/";
 	public static void writeErrorLog(String errorMsg) {
 		ArrayList<String> lines = new ArrayList<String>();
-		File logFilePath = new File("./" + HtmlParser.getTodayDat() + "_error.log");
+		File logFilePath = new File(prefixPath + HtmlParser.getTodayDat() + "_error.log");
 		if(logFilePath.exists()) {
 			WriteLog.writeAppendLog(errorMsg);
 		} else {
-			Path logFile = Paths.get("./" + HtmlParser.getTodayDat() + "_error.log");
+			Path logFile = Paths.get(prefixPath + HtmlParser.getTodayDat() + "_error.log");
 			lines.add(errorMsg);
 			try {
 				Files.write(logFile, lines, Charset.forName("UTF-8"));
@@ -33,7 +34,7 @@ public class WriteLog {
 
 	private static void writeAppendLog(String errorMsg) {
 		try {
-			File file = new File("./" + HtmlParser.getTodayDat() + "_error.log");
+			File file = new File(prefixPath + HtmlParser.getTodayDat() + "_error.log");
 
 			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
 			BufferedWriter bw = new BufferedWriter(fw);

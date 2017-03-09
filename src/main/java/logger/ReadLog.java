@@ -10,7 +10,7 @@ import java.util.List;
 import parser.HtmlParser;
 
 public class ReadLog {
-	private static String filePathStr = "./" + HtmlParser.getTodayDat() + "_error.log";
+	private static String filePathStr = "/home/tomcat7/" + HtmlParser.getTodayDat() + "_error.log";
 
 	public static String getLog() {
 		String resStr = "";

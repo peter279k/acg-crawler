@@ -29,7 +29,7 @@ public class EmailHandler extends HttpServlet{
 		TokenGenerator csrf = new TokenGenerator();
 		CsrfToken checkToken = csrf.loadToken(req);
 		if(checkToken == null) {
-			resList.put("result", "missing or invalid csrf-token!"); 
+			resList.put("result", "連線逾時，請重新整理，再發送一次！"); 
 		} else {
 			String emailAddr = req.getParameter("email-addr");
 			String emailAction = req.getParameter("action");
@@ -43,7 +43,7 @@ public class EmailHandler extends HttpServlet{
 				resList.put("result", "email錯誤！");
 			} else {
 				DbConnection dbConn = new DbConnection();
-				Connection conn = dbConn.iniConnection();
+				Connection conn = dbConn.iniEmailConn();
 				if(emailAction.equals("subscribe")) {
 					dbConn.createEmailTable(conn);
 					boolean result = dbConn.insertEmailVal(conn, emailAddr);
@@ -51,7 +51,7 @@ public class EmailHandler extends HttpServlet{
 					if(result) {
 						resList.put("result", "訂閱成功！");
 					} else {
-						resList.put("result", "郵件地址已經存在！");
+						resList.put("result", "訂閱失敗！");
 					}
 				} else {
 					String result = dbConn.delEmailVal(conn, emailAddr);
@@ -60,7 +60,7 @@ public class EmailHandler extends HttpServlet{
 					} else if(result.contains("non-exist")) {
 						resList.put("result", "退訂失敗，原因：email地址不存在！");
 					} else {
-						resList.put("result", "退訂失敗");
+						resList.put("result", result);
 					}
 				}
 

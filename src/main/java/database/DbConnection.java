@@ -1,17 +1,34 @@
 package database;
 
-import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteConfig.SynchronousMode;
 
-import auth.Auth;
 import logger.WriteLog;
 import parser.HtmlParser;
 
 public class DbConnection {
+	public Connection iniEmailConn() {
+		Connection connection = null; 
+		try {
+			Class.forName("org.sqlite.JDBC");
+			SQLiteConfig sqlConfig = new SQLiteConfig();
+			sqlConfig.setEncoding(SQLiteConfig.Encoding.UTF8);
+			sqlConfig.setPageSize(5120);
+			sqlConfig.setReadOnly(false);
+			sqlConfig.setSynchronous(SynchronousMode.NORMAL);
+			String dbPath = "/home/tomcat7/email.db";
+			connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath, sqlConfig.toProperties());
+		} catch(Exception e) {
+			WriteLog.writeErrorLog(e.getMessage().toString());
+			e.printStackTrace();
+		}
+
+		return connection;
+	}
+
 	public Connection iniConnection() {
 		Connection connection = null; 
 		try {
@@ -19,13 +36,10 @@ public class DbConnection {
 			SQLiteConfig sqlConfig = new SQLiteConfig();
 			sqlConfig.setEncoding(SQLiteConfig.Encoding.UTF8);
 			sqlConfig.setPageSize(5120);
+			sqlConfig.setReadOnly(false);
 			sqlConfig.setSynchronous(SynchronousMode.NORMAL);
-			File file = new File("./anime.db");
-			if(file.exists()) {
-				connection = DriverManager.getConnection("jdbc:sqlite:anime.db", sqlConfig.toProperties());
-			} else {
-				connection = DriverManager.getConnection("jdbc:sqlite:" + new Auth().getAuth().get("path"), sqlConfig.toProperties());
-			}
+			String dbPath = "/home/peter/acg-crawler/anime.db";
+			connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath, sqlConfig.toProperties());
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
@@ -49,6 +63,7 @@ public class DbConnection {
 	public boolean insertEmailVal(Connection connection, String emailAddr) {
 		boolean result = true;
 		try {
+			connection.setReadOnly(false);
 			connection.setAutoCommit(false);
 			if(this.checkMailExist(connection, emailAddr)) {
 				result = false;
@@ -64,6 +79,7 @@ public class DbConnection {
 				connection.commit();
 			}
 		} catch(SQLException e) {
+			result = false;
 			e.printStackTrace();
 			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
@@ -170,6 +186,7 @@ public class DbConnection {
 			if(isMailExist == false) {
 				result = "email-address-non-exist";
 			} else {
+				connection.setReadOnly(false);
 				connection.setAutoCommit(false);
 				String sql = "DELETE FROM email WHERE EMAIL = ?;";
 				PreparedStatement stat = connection.prepareStatement(sql);
@@ -181,6 +198,7 @@ public class DbConnection {
 				result = "delete-email-address-success";
 			}
 		} catch(SQLException e) {
+			result = e.getMessage();
 			e.printStackTrace();
 			WriteLog.writeErrorLog(e.getMessage().toString());
 		}

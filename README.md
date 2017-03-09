@@ -26,24 +26,23 @@ A ACG crawler for crawling the ACG news!
 ~~- (security) user input validation (email)~~
 
 # Requirement
+- Operating System: Ubuntu/16.04 (The Ubuntu 14.04 is not available for this project.)
+- Apache Tomcat version: 7
 - JAVA: 1.7+(recommendation version is 1.8)
 - Apache Tomcat 7 (version 8 is not sure to be worked well...)
 
-# Deployment
+# Deployment (Manual approach)
 We assume that we have installed the JSP environment in our target host.
 
 - target host: VPS (recommendation)
 - clone the repo
 - install the gradle (```sudo apt-get install gradle```) 
 - using the command ```gradle tomcatRunWar``` to generate the ```acg-crawler.war```.i(The war file is in the /path/to/acg-crawler/build/libs)
-- create the ```Auth.ini``` to set the SQLite databse path, Mailgun info and GMAIL info.
+- create the ```Auth.ini``` to set the Mailgun info and GMAIL info.
 - export the runnable ```acg-crawler.jar```.
-- Remember to copy the ```assets``` folder and ```auth.ini``` file to the WEB-INF folder in WAR file.
+- Remember to copy the ```assets``` folder to the WEB-INF folder in WAR file.
 - Remember to move the runnable jar file and ```auth.ini``` in the same directory path.
-- set the crontab command: ```java -jar /path/to/acg-crawler.jar crawler``` to crawl data your specified time.
-- set the crontab command: ```java -jar /path/to/acg-crawler.jar send-email``` to send newsletter every day.
-- set the crotab command: ```java -jar /path/to/acg-crawler.jar send-error-log``` to send the error log mail via Mailgun API.
-
+- set the crontab command: ```java -jar /path/to/acg-crawler.jar ``` to crawl data, send email and send error log mail.
 - enjoy it!
 
 # auth.ini
@@ -59,8 +58,24 @@ from-email-account=AnimeNews <admin@peter279k.com.tw>
 [GMAIL]
 account=your-gmail-addresss
 password=your-gmail-password
-[SQLite]
-path=/path/to/anime.db
+```
+# SETUP.sh (Automatic deployment)
+```bash
+#!/bin/bash
+
+echo "This project is available for the Ubuntu 16.04LTS"
+
+sudo apt-get install gradle git-core
+sudo apt-get install default-jdk default-jre tomcat7
+
+git clone https://github.com/peter279k/acg-crawler.git
+cd acg-crawler
+
+gradle jar --info
+gradle war --info
+
+
+
 ```
 
 # Security

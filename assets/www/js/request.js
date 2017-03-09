@@ -27,7 +27,7 @@ $(function() {
 });
 
 function requestNews() {
-	$.get("http://localhost:8080/acg-crawler/anime/news", function(response) {
+	$.get("./anime/news", function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		if(json[0] === "empty") {
 			$("#news-lists").append('<li>尚未有最新消息！</li>');
@@ -47,7 +47,7 @@ function requestNews() {
 }
 
 function requestHotNews() {
-	$.get("http://localhost:8080/acg-crawler/anime/hot/news", function(response) {
+	$.get("./anime/hot/news", function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		if(json[0] === "empty") {
 			$("#hot-news-lists").append('<li>尚未有今日新聞！</li>');
@@ -73,14 +73,14 @@ function requestHotNews() {
 }
 
 function addEmailAddr(emailAddr) {
-	$.post("http://localhost:8080/acg-crawler/anime/subscribe", {"action": "subscribe", "email-addr": emailAddr}, function(response) {
+	$.post("./anime/subscribe", {"action": "subscribe", "email-addr": emailAddr}, function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		$("#error-msg").html(json["result"]);
 	});
 }
 
 function delEmailAddr(emailAddr) {
-	$.post("http://localhost:8080/acg-crawler/anime/unsubscribe", {"action": "unsubscribe", "email-addr": emailAddr}, function(response) {
+	$.post("./anime/unsubscribe", {"action": "unsubscribe", "email-addr": emailAddr}, function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		$("#error-msg").html(json["result"]);
 	});

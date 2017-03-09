@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import crawler.AcgCrawler;
 import email.MailGunMsg;
 import email.SendMail;
@@ -10,14 +13,10 @@ import logger.WriteLog;
  * 發送完之後，就 DROP TABLE
  */
 public class MainIndex {
-	private static void unknownAction() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Unknown action.");
-		builder.append("Please set the action parameter.");
-		WriteLog.writeErrorLog(builder.toString());
-		System.out.println(builder.toString());
-		System.exit(0);
-	}
+	private static int setHour = 21;
+	private static boolean checkHour = MainIndex.checkSpeciTime(MainIndex.setHour);
+	private static String mailService = "MAILGUN";
+
 	private static void doCrawl() {
 		AcgCrawler crawler = new AcgCrawler();
 		try {
@@ -28,13 +27,8 @@ public class MainIndex {
 			WriteLog.writeErrorLog(e.getMessage().toString());
 		}
 	}
-	private static void doSendMail(String []args) {
-		String serviceName = "";
-		if(args.length > 2 && args[1].equals("GMAIL")) {
-			serviceName = args[1];
-		} else {
-			serviceName = "MAILGUN";
-		}
+	private static void doSendMail() {
+		String serviceName = MainIndex.mailService;
 
 		if(serviceName.equals("GMAIL")) {
 			SendMail.sendGmailHtml();
@@ -48,21 +42,63 @@ public class MainIndex {
 		}
 	}
 
+	private static boolean checkSpeciTime(int hour) {
+		boolean isSpeci = false;
+		ZoneId zoneId = ZoneId.of("Asia/Taipei");
+		LocalDateTime localDateTime = LocalDateTime.now(zoneId);
+		int nowHour = localDateTime.getHour();
+		if(nowHour == hour) {
+			return isSpeci = true;
+		}
+
+		return isSpeci;
+	}
+
+	private static void doDaemonEmail() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				MainIndex.doSendMail();
+			}
+		});
+		thread.setDaemon(true);
+		thread.start();
+	}
+	
+	private static void doDaemonLog() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				SendMail.sendErrorLog();
+			}
+		});
+		thread.setDaemon(true);
+		thread.start();
+	}
+
+	private static void doDaemonCrawl() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				MainIndex.doCrawl();
+			}
+		});
+		thread.setDaemon(true);
+		thread.start();
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// Crawl page: java acg-crawler.jar crawler
 		// Send newsletter: java acg-crawler.jar send-email
 		// Send error log email: java acg-crawler.jar send-error-log
-		if(args.length > 0) {
-			if(args[0].equals("crawler")) {
-				MainIndex.doCrawl();
-			} else if(args[0].equals("send-email")) {
-				MainIndex.doSendMail(args);
-			} else if(args[0].equals("send-error-log")) {
-				SendMail.sendErrorLog();;
-			}
-		} else {
-			MainIndex.unknownAction();
+		MainIndex.doDaemonCrawl();
+		if(MainIndex.checkHour) {
+			MainIndex.doDaemonEmail();
+			MainIndex.doDaemonLog();
 		}
 	}
 }

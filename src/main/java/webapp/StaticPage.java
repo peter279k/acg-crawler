@@ -57,11 +57,13 @@ public class StaticPage extends HttpServlet {
     			}
     		} else {
     			InputStream is = getServletContext().getResourceAsStream("/WEB-INF/assets/www/" + req.getPathInfo());
-        		BufferedReader b = new BufferedReader( new InputStreamReader( is ));
+        		BufferedReader b = new BufferedReader( new InputStreamReader(is, "UTF-8"));
         		String str = "";
         		while((str = b.readLine()) != null) {
         			output += str;
         		}
+        		is.close();
+        		b.close();
     		}
 
     		if(filePath.contains("css")) {

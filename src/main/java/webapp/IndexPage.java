@@ -33,11 +33,13 @@ public class IndexPage extends HttpServlet {
     	String output = "";
     	if(htmlFilePath.exists() == false) {
     		InputStream is = getServletContext().getResourceAsStream("/WEB-INF/assets/www/index.html");
-    		BufferedReader b = new BufferedReader( new InputStreamReader( is ));
+    		BufferedReader b = new BufferedReader( new InputStreamReader(is, "UTF-8"));
     		String str = "";
     		while((str = b.readLine()) != null) {
     			output += str;
     		}
+    		is.close();
+    		b.close();
     	} else {
     		Path indexPath = Paths.get(filePath);
     		List<String>contents = Files.readAllLines(indexPath, Charset.forName("UTF-8"));
