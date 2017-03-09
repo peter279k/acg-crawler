@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import parser.HtmlParser;
 
 public class WriteLog {
-	private static String prefixPath = "/home/tomcat7/";
+	private static String prefixPath = System.getProperty("user.home") + "/";
 	public static void writeErrorLog(String errorMsg) {
 		ArrayList<String> lines = new ArrayList<String>();
 		File logFilePath = new File(prefixPath + HtmlParser.getTodayDat() + "_error.log");

@@ -29,16 +29,18 @@ public class AnimeNews extends HttpServlet{
 		if(checkToken == null) {
 			resList.add("連線逾時，請重新整理！");
 		} else {
-
 			DbConnection dbConn = new DbConnection();
 			Connection conn = dbConn.iniConnection();
+			if(conn == null) {
+				resList.add("database connection failed...");
+			} else {
+				resList = dbConn.selectValue(conn, "weekly");
+				if(resList.size() == 0) {
+					resList.add("empty");
+				}
 
-			resList = dbConn.selectValue(conn, "weekly");
-			if(resList.size() == 0) {
-				resList.add("empty");
+				dbConn.closeConnection(conn);
 			}
-
-			dbConn.closeConnection(conn);
 		}
 
 		String json = new Gson().toJson(resList);

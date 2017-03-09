@@ -1,3 +1,3 @@
 #!/bin/bash
 
-java -jar ~/peter/acg-crawler/acg-crawler.jar
+java -jar $HOME/acg-crawler/acg-crawler.jar

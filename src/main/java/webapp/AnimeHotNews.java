@@ -31,13 +31,16 @@ public class AnimeHotNews extends HttpServlet{
 		} else {
 			DbConnection dbConn = new DbConnection();
 			Connection conn = dbConn.iniConnection();
+			if(conn == null) {
+				resList.add("database connection is failed");
+			} else {
+				resList = dbConn.selectValue(conn, "hot");
+				if(resList.size() == 0) {
+					resList.add("empty");
+				}
 
-			resList = dbConn.selectValue(conn, "hot");
-			if(resList.size() == 0) {
-				resList.add("empty");
+				dbConn.closeConnection(conn);
 			}
-
-			dbConn.closeConnection(conn);
 		}
 
 		String json = new Gson().toJson(resList);

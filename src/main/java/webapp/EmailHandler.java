@@ -44,28 +44,33 @@ public class EmailHandler extends HttpServlet{
 			} else {
 				DbConnection dbConn = new DbConnection();
 				Connection conn = dbConn.iniEmailConn();
-				if(emailAction.equals("subscribe")) {
-					dbConn.createEmailTable(conn);
-					boolean result = dbConn.insertEmailVal(conn, emailAddr);
-
-					if(result) {
-						resList.put("result", "訂閱成功！");
-					} else {
-						resList.put("result", "訂閱失敗！");
-					}
+				if(conn == null) {
+					resList.put("result", "database connection failed!");
 				} else {
-					String result = dbConn.delEmailVal(conn, emailAddr);
-					if(result.contains("success")) {
-						resList.put("result", "退訂成功！");
-					} else if(result.contains("non-exist")) {
-						resList.put("result", "退訂失敗，原因：email地址不存在！");
-					} else {
-						resList.put("result", result);
-					}
-				}
+					if(emailAction.equals("subscribe")) {
+						dbConn.createEmailTable(conn);
+						boolean result = dbConn.insertEmailVal(conn, emailAddr);
 
-				dbConn.closeConnection(conn);
+						if(result) {
+							resList.put("result", "訂閱成功！");
+						} else {
+							resList.put("result", "訂閱失敗！");
+						}
+					} else {
+						String result = dbConn.delEmailVal(conn, emailAddr);
+						if(result.contains("success")) {
+							resList.put("result", "退訂成功！");
+						} else if(result.contains("non-exist")) {
+							resList.put("result", "退訂失敗，原因：email地址不存在！");
+						} else {
+							resList.put("result", result);
+						}
+					}
+
+					dbConn.closeConnection(conn);
+				}
 			}
+				
 		}
 
 		String json = new Gson().toJson(resList);

@@ -10,8 +10,11 @@ import logger.WriteLog;
 import parser.HtmlParser;
 
 public class DbConnection {
+	private String currHome = System.getProperty("user.home");
+	private String dbPath = "/home/peter/acg-crawler/anime.db";
+
 	public Connection iniEmailConn() {
-		Connection connection = null; 
+		Connection connection = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig sqlConfig = new SQLiteConfig();
@@ -19,7 +22,7 @@ public class DbConnection {
 			sqlConfig.setPageSize(5120);
 			sqlConfig.setReadOnly(false);
 			sqlConfig.setSynchronous(SynchronousMode.NORMAL);
-			String dbPath = "/home/tomcat7/email.db";
+			String dbPath = this.currHome + "/email.db";
 			connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath, sqlConfig.toProperties());
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
@@ -38,8 +41,7 @@ public class DbConnection {
 			sqlConfig.setPageSize(5120);
 			sqlConfig.setReadOnly(false);
 			sqlConfig.setSynchronous(SynchronousMode.NORMAL);
-			String dbPath = "/home/peter/acg-crawler/anime.db";
-			connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath, sqlConfig.toProperties());
+			connection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath, sqlConfig.toProperties());
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
 			e.printStackTrace();
