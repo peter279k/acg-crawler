@@ -153,7 +153,7 @@ public class DbConnection {
 		        String link = rs.getString("LINK");
 		        if(link.contains("NewsArea")) {
 		        	id = "Animen";
-		        	link = "https://www.animen.com.tw" + link;
+		        	link = "http://www.animen.com.tw" + link;
 		        } else if(link.contains("gamme")){
 		        	id = "宅宅新聞";
 		        } else if(link.contains("gamer")) {

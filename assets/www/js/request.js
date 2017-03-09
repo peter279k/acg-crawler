@@ -37,7 +37,7 @@ function requestNews() {
 		} else {
 			var renderStr = "";
 			for(var index=0;index<json.length;index+=4) {
-				renderStr += '<li><a href="' + json[index+2] + '">' +
+				renderStr += '<li><a target="_blank" href="' + json[index+2] + '">' +
 					'<h2>' + json[index+3] + '(' + json[index] + ')' + '</h2>' +
 					'<p>' + json[index+1] + '</p>' +
 				'</a></li>';
@@ -58,7 +58,7 @@ function requestHotNews() {
 			var renderStr = "";
 			var checkLen = 1;
 			for(var index=json.length-1;index>=0;index-=4) {
-				renderStr += '<li><a href="' + json[index-1] + '">' +
+				renderStr += '<li><a target="_blank" href="' + json[index-1] + '">' +
 					'<h2>' + json[index] + '(' + json[index-3] + ')' + '</h2>' +
 					'<p>' + json[index-2] + '</p>' +
 				'</a></li>';
