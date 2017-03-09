@@ -10,7 +10,7 @@ import logger.WriteLog;
 import parser.HtmlParser;
 
 public class DbConnection {
-	private String currHome = System.getProperty("user.home");
+	private String currHome = "/home/tomcat7";
 	private String dbPath = "/home/peter/acg-crawler/anime.db";
 
 	public Connection iniEmailConn() {
@@ -140,7 +140,7 @@ public class DbConnection {
 
 			ResultSet rs = null;
 			if(type.equals("hot")) {
-				rs = stat.executeQuery("SELECT * FROM anime WHERE THEDATE = date('now');");
+				rs = stat.executeQuery("SELECT * FROM anime WHERE THEDATE =  date('now', 'localtime');");
 			} else if(type.equals("weekly")) {
 				rs = stat.executeQuery("SELECT * FROM anime WHERE (julianday('now') - julianday(THEDATE)) <= 7;");
 			} else {

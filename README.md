@@ -59,20 +59,23 @@ from-email-account=AnimeNews <admin@peter279k.com.tw>
 account=your-gmail-addresss
 password=your-gmail-password
 ```
-# SETUP.sh (Automatic deployment) (In target host)
+# SETUP.sh
 ```bash
 #!/bin/bash
 
-echo "This project has built in the Ubuntu 16.04LTS"
+echo "This project has built in the Ubuntu 16.04LTS (in development environment)"
 
 sudo apt-get install gradle git-core
 sudo apt-get install default-jdk default-jre tomcat7
 
 git clone https://github.com/peter279k/acg-crawler.git
-cd acg-crawler
+cd acg-crawler/
+
+cp -r ./assets src/main/webapp/WEB-INF
+
+# remember to generate the runnable jar file from eclipse IDE.
 
 gradle clean
-gradle jar
 gradle war
 
 sudo mkdir /home/tomcat7
@@ -83,6 +86,8 @@ sudo cp build/libs/acg-crawler.war /var/lib/tomcat7/webapps
 sudo service tomcat7 restart
 
 echo "Finish the deployment and visit the url: domain-name:8080/acg-crawler"
+echo "\n"
+echo "Don't forget to use scp uploading your jar and war files"
 
 ```
 

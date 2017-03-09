@@ -62,7 +62,6 @@ public class MainIndex {
 				MainIndex.doSendMail();
 			}
 		});
-		thread.setDaemon(true);
 		thread.start();
 	}
 	
@@ -74,7 +73,6 @@ public class MainIndex {
 				SendMail.sendErrorLog();
 			}
 		});
-		thread.setDaemon(true);
 		thread.start();
 	}
 
@@ -86,7 +84,6 @@ public class MainIndex {
 				MainIndex.doCrawl();
 			}
 		});
-		thread.setDaemon(true);
 		thread.start();
 	}
 

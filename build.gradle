@@ -74,3 +74,4 @@ tomcatRunWar {
     httpPort = 8080
     stopPort = 8191
 }
+

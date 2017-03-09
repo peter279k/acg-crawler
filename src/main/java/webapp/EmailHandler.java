@@ -54,7 +54,7 @@ public class EmailHandler extends HttpServlet{
 						if(result) {
 							resList.put("result", "訂閱成功！");
 						} else {
-							resList.put("result", "訂閱失敗！");
+							resList.put("result", "訂閱失敗！此信箱已經訂閱！");
 						}
 					} else {
 						String result = dbConn.delEmailVal(conn, emailAddr);
