@@ -142,7 +142,7 @@ public class DbConnection {
 			if(type.equals("hot")) {
 				rs = stat.executeQuery("SELECT * FROM anime WHERE THEDATE =  date('now', 'localtime');");
 			} else if(type.equals("weekly")) {
-				rs = stat.executeQuery("SELECT * FROM anime WHERE (julianday('now') - julianday(THEDATE)) <= 7;");
+				rs = stat.executeQuery("SELECT * FROM anime WHERE (julianday('now', 'localtime') - julianday(THEDATE)) <= 7;");
 			} else {
 				rs = stat.executeQuery("SELECT * FROM anime;");
 			}

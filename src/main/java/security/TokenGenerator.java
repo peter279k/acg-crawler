@@ -72,7 +72,7 @@ public class TokenGenerator implements CsrfTokenRepository {
 		} else {
 			csrfCookie.setMaxAge(this.getCookieMaxAge());
 		}
-		
+
 		response.addCookie(csrfCookie);
 	}
 

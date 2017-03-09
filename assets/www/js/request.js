@@ -2,6 +2,9 @@ $(function() {
 	$.ajaxSetup({
 		headers: {
 			"X-CSRFToken": $("#csrf-token").val()
+        },
+        xhrFields: {
+			withCredentials: true
         }
     });
 
