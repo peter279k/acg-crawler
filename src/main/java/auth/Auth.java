@@ -13,46 +13,60 @@ import javax.servlet.http.HttpServlet;
 
 @SuppressWarnings("serial")
 public class Auth extends HttpServlet {
+	private List<String> authList = this.getAuthInfo();
+	private Map<String, String> list = new HashMap<String, String>();
+	private String stat = "";
+	private String []arr = null;
+
 	public Map<String,String> getAuth() {
-		List<String> authList = this.getAuthInfo();
-		Map<String, String> list = new HashMap<String, String>();
-		if(authList == null || authList.isEmpty()) {
-			list.put("result", "auth.ini is not existed...");
+		if(this.authList == null || this.authList.isEmpty()) {
+			this.list.put("result", "auth.ini is not existed...");
 		} else {
-			String stat = "";
-			for(int index=0;index<authList.size();index++) {
-				if(authList.get(index).isEmpty()
-					|| authList.get(index).equals("")
-					|| authList.get(index).length() == 0) {
+			for(int index=0;index<this.authList.size();index++) {
+				if(this.authList.get(index).isEmpty()
+					|| this.authList.get(index).equals("")
+					|| this.authList.get(index).length() == 0) {
 					break;
-				} else if(authList.get(index).contains("[GMAIL]")) {
-					stat = "GMAIL";
+				} else if(this.authList.get(index).contains("[GMAIL]")) {
+					this.stat = "GMAIL";
 				} else if(stat.equals("GMAIL")) {
-					String []arr = authList.get(index).split("=");
+					this.arr = this.authList.get(index).split("=");
 					if(arr.length != 2) {
 						continue;
 					}
-					list.put(arr[0], arr[1]);
-					if(authList.size() < (index+1)
-						&& authList.get(index+1).isEmpty() == false
-						&& authList.get(index+1).contains("=") == false) {
-						stat = "";
-					}
-				} else {
-					String []arr = authList.get(index).split("=");
-					if(arr.length != 2) {
+					this.parse(index);
+				} else if(this.authList.get(index).contains("[SQLite]")) {
+					this.stat = "SQLite";
+				} else if(this.stat.equals("SQLite")) {
+					this.arr = this.authList.get(index).split("=");
+					if(this.arr.length != 2) {
 						continue;
 					}
-					list.put(arr[0], arr[1]);
+					this.parse(index);
+				} else if(this.stat.equals("home")) {
+					this.arr = this.authList.get(index).split("=");
+					if(this.arr.length != 2) {
+						continue;
+					}
+					this.parse(index);
 				}
 			}
 		}
 
-		return list;
+		return this.list;
+	}
+
+	private void parse(int index) {
+		this.list.put(this.arr[0], this.arr[1]);
+		if(this.authList.size() < (index+1)
+			&& this.authList.get(index+1).isEmpty() == false
+			&& this.authList.get(index+1).contains("=") == false) {
+			this.stat = "";
+		}
 	}
 
 	private List<String> getAuthInfo() {
-		String path = "./auth.ini";
+		String path = "/home/peter/acgcrawler/auth.ini";
 		File authFile = new File(path);
 		List<String>listStr = null;
 		if(authFile.exists()) {

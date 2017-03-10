@@ -7,10 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import auth.Auth;
 import parser.HtmlParser;
 
 public class ReadLog {
-	private static String currHome = "/home/tomcat7";
+	private static String currHome = new Auth().getAuth().get("home");
 	private static String filePathStr = ReadLog.currHome + "/" + HtmlParser.getTodayDat() + "_error.log";
 
 	public static String getLog() {

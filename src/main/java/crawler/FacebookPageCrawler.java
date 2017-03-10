@@ -3,7 +3,7 @@ package crawler;
 
 public class FacebookPageCrawler {
 	final String loopUrl[] = {
-		"https://www.facebook.com/HKACGerZ",
+		"https://www.facebook.com/HKACGer",
 		"https://www.facebook.com/PlayStationTaiwan/",
 		"https://www.facebook.com/taipeigameshow/",
 		"https://www.facebook.com/Ubisoft.TWN/",

@@ -2,16 +2,18 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteConfig.SynchronousMode;
 
+import auth.Auth;
 import logger.WriteLog;
 import parser.HtmlParser;
 
 public class DbConnection {
-	private String currHome = "/home/tomcat7";
-	private String dbPath = "/home/peter/acg-crawler/anime.db";
+	private Map<String, String> list = new Auth().getAuth();
+	private String dbPath = this.list.get("anime.db");
 
 	public Connection iniEmailConn() {
 		Connection connection = null;
@@ -22,7 +24,7 @@ public class DbConnection {
 			sqlConfig.setPageSize(5120);
 			sqlConfig.setReadOnly(false);
 			sqlConfig.setSynchronous(SynchronousMode.NORMAL);
-			String dbPath = this.currHome + "/email.db";
+			this.dbPath = this.list.get("email.db");
 			connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath, sqlConfig.toProperties());
 		} catch(Exception e) {
 			WriteLog.writeErrorLog(e.getMessage().toString());
