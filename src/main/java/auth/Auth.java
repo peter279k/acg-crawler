@@ -53,7 +53,7 @@ public class Auth extends HttpServlet {
 			}
 		}
 
-		return this.list;
+        return this.list;
 	}
 
 	private void parse(int index) {
@@ -66,7 +66,7 @@ public class Auth extends HttpServlet {
 	}
 
 	private List<String> getAuthInfo() {
-		String path = "/home/peter/acgcrawler/auth.ini";
+		String path = "/home/peter/acg-crawler/auth.ini";
 		File authFile = new File(path);
 		List<String>listStr = null;
 		if(authFile.exists()) {
