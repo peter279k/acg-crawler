@@ -1,3 +1,5 @@
+var zoomLevel = 1;
+
 $(function() {
 	$.ajaxSetup({
 		headers: {
@@ -12,7 +14,6 @@ $(function() {
 	requestHotNews();
 	
 	var date = new Date();
-	var zoomLevel = 1;
 	var today = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
 	$("#this-time").html("今天是：" + today);
 
@@ -30,18 +31,24 @@ $(function() {
 
 	$("#zoom-in-btn").click(function(e) {
 		e.preventDefault = false;
-		updateZoom(0.5, zoomLevel);
+		updateZoom(0.5);
 	});
 
 	$("#zoom-out-btn").click(function(e) {
 		e.preventDefault = false;
-		updateZoom(-0.5, zoomLevel);
+		updateZoom(-0.5);
 	});
-
 });
 
-function updateZoom(zoom, zoomLevel) {
-	zoomLevel += zoom;
+function updateZoom(zoom) {
+	if((zoomLevel + zoom) > 1.5) {
+		return;
+	} else if((zoomLevel + zoom) === 0) {
+		return;
+	} else {
+		zoomLevel += zoom;
+	}
+
 	$('#news-lists').css({ zoom: zoomLevel, '-moz-transform': 'scale(' + zoomLevel + ')' });
 	$('#hot-news-lists').css({ zoom: zoomLevel, '-moz-transform': 'scale(' + zoomLevel + ')' });
 }
@@ -60,12 +67,11 @@ function requestNews() {
 				'</a></li>';
 			}
 		}
-		
+
 		$("#news-lists").append(renderStr);
 		$("#news-lists").listview("refresh");
 	});
 }
-
 
 function requestHotNews() {
 	$.get("./anime/hot/news", function(response) {

@@ -53,6 +53,7 @@
 		<input type="email" id="email-addr" name="email-addr" value="">
 		<a id="subscribe-btn" data-role="button" data-theme="b">訂閱</a>
 		<a id="unsubscribe-btn" data-role="button" data-theme="a">退訂</a>
+		<h3 id="error-msg"></h3>
 		<fieldset class="ui-grid-a">
 			<div class="ui-block-a">
 				<button id="zoom-in-btn" data-icon="plus">字體放大</button>
@@ -61,8 +62,7 @@
 				<button id="zoom-out-btn" data-icon="minus">字體縮小</button>
 			</div>
 		</fieldset>
-		<h3 id="error-msg"></h3>
-		<ul id="news-lists" data-role="listview" data-inset="true" data-theme="d" data-icon="false"></ul>
+		<ul id="news-lists" data-filter-reveal="true" data-filter-placeholder="請輸入關鍵字..." data-filter="true" data-input="#filter-input-val" data-role="listview" data-inset="true" data-theme="d" data-icon="false"></ul>
 		
 
 	</div><!-- /content -->
