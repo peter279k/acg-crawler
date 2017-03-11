@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import database.DbConnection;
+import parser.HtmlParser;
 
 public class EmailTemplate {
 	public String generate() {
@@ -40,8 +41,7 @@ public class EmailTemplate {
 				strBuilder.append("<h2><a href='" + link + "'>" + title + "</a></h2>");
 				strBuilder.append("</div></div></td></tr>");
 			}
-			strBuilder.append(contents);
-			strBuilder.append("<tr><td height='55'></td></tr><tr><td align='center'><table><tr><td align='center' bgcolor='#1A54BA' style='background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;'><div class='contentEditableContainer contentTextEditable'><div class='contentEditable' align='center'><a target='_blank' href='https://peter279k.com.tw/anime/unscribe' class='link2' style='color:#ffffff;'>退訂</a></div></div></td></tr></table></td></tr><tr><td height='20'></td></tr></table></div><div class='movableContent' style='border: 0px; padding-top: 0px; position: relative;'><table width='100%' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td height='65'></tr><tr><td style='border-bottom:1px solid #DDDDDD;'></td></tr><tr><td height='25'></td></tr><tr><td><table width='100%' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td valign='top' width='30' class='specbundle'>&nbsp;</td><td valign='top' class='specbundle'><table width='100%' border='0' cellspacing='0' cellpadding='0'></table></td></tr><tr><td valign='top' width='200' class='specbundle'>產生日期：2017-03-09</td></tr></tbody></table></td></tr><tr><td height='88'></td></tr></tbody></table></div><!-- =============================== footer ====================================== --></td></tr></tbody></table></td><td valign='top' width='40'>&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></body></html>");
+			strBuilder.append("<tr><td height='55'></td></tr><tr><td align='center'><table><tr><td align='center' bgcolor='#1A54BA' style='background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;'><div class='contentEditableContainer contentTextEditable'><div class='contentEditable' align='center'><a target='_blank' href='https://peter279k.com.tw' class='link2' style='color:#ffffff;'>退訂</a></div></div></td></tr></table></td></tr><tr><td height='20'></td></tr></table></div><div class='movableContent' style='border: 0px; padding-top: 0px; position: relative;'><table width='100%' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td height='65'></tr><tr><td style='border-bottom:1px solid #DDDDDD;'></td></tr><tr><td height='25'></td></tr><tr><td><table width='100%' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td valign='top' width='30' class='specbundle'>&nbsp;</td><td valign='top' class='specbundle'><table width='100%' border='0' cellspacing='0' cellpadding='0'></table></td></tr><tr><td valign='top' width='200' class='specbundle'>產生日期：" + HtmlParser.getTodayDat() + "</td></tr></tbody></table></td></tr><tr><td height='88'></td></tr></tbody></table></div><!-- =============================== footer ====================================== --></td></tr></tbody></table></td><td valign='top' width='40'>&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></body></html>");
 		}
 		return strBuilder.toString();
 	}

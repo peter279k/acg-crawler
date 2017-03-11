@@ -78,7 +78,6 @@ public class SendMail {
 				Gson gson = new GsonBuilder().create();
 				String jsonStr = respStr;
 				SendMail.msgList = gson.fromJson(jsonStr, MailGunMsg.class);
-				System.out.println(SendMail.msgList);
 			}
 			response.close();
 		} catch(IOException e) {
@@ -124,24 +123,23 @@ public class SendMail {
 		String logString = ReadLog.getLog();
 		if(logString.equals("empty-string")) {
 			System.out.println("today is no error log...");
-			System.exit(0);
-		}
-
-		SendMail.message = logString;
-		Request req = SendMail.buildMaiGunReq(-1);
-		try {
-			SendMail.buildMailGunResp(req);
-			TimeUnit.SECONDS.sleep(SendMail.randSleep);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			WriteLog.writeErrorLog(e.getMessage().toString());
-			e.printStackTrace();
+		} else {
+			SendMail.message = logString;
+			Request req = SendMail.buildMaiGunReq(-1);
+			try {
+				SendMail.buildMailGunResp(req);
+				TimeUnit.SECONDS.sleep(SendMail.randSleep);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				WriteLog.writeErrorLog(e.getMessage().toString());
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private static ArrayList<String> getMailList() {
 		DbConnection conn = new DbConnection();
-		Connection c = conn.iniConnection();
+		Connection c = conn.iniEmailConn();
 
 		return conn.getEmailList(c);
 	}
