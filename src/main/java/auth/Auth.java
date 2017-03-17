@@ -29,7 +29,15 @@ public class Auth extends HttpServlet {
 					break;
 				} else if(this.authList.get(index).contains("[MAILGUN]")) {
 					this.stat = "MAILGUN";
+				} else if(this.authList.get(index).contains("[mxtoolbox]")) {
+					this.stat = "mxtoolbox";
 				} else if(stat.equals("MAILGUN")) {
+					this.arr = this.authList.get(index).split("=");
+					if(arr.length != 2) {
+						continue;
+					}
+					this.parse(index);
+				} else if(stat.equals("mxtoolbox")) {
 					this.arr = this.authList.get(index).split("=");
 					if(arr.length != 2) {
 						continue;

@@ -18,6 +18,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 import com.google.gson.Gson;
 
 import database.DbConnection;
+import email.MailValid;
 import security.TokenGenerator;
 
 @SuppressWarnings("serial")
@@ -41,6 +42,10 @@ public class EmailHandler extends HttpServlet{
 				resList.put("result", "請輸入email！");
 			} else if(this.checkMail(emailAddr) == false) {
 				resList.put("result", "email錯誤！");
+			} else if((new MailValid(emailAddr).mxToolBoxCheck() == false)) {
+				resList.put("result", "email網址(domain)解析錯誤！");
+			} else if(new MailValid(emailAddr).emailValidate() == false) {
+				resList.put("result", "email網址(domain)解析錯誤！");
 			} else {
 				DbConnection dbConn = new DbConnection();
 				Connection conn = dbConn.iniEmailConn();

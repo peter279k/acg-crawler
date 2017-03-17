@@ -18,12 +18,14 @@ $(function() {
 	$("#this-time").html("今天是：" + today);
 
 	$("#subscribe-btn").click(function(e) {
+		showLoadingBar();
 		e.preventDefault = false;
 		var emailAddr = $("#email-addr").val();
 		addEmailAddr(emailAddr);
 	});
 	
 	$("#unsubscribe-btn").click(function(e) {
+		showLoadingBar();
 		e.preventDefault = false;
 		var emailAddr = $("#email-addr").val();
 		delEmailAddr(emailAddr);
@@ -103,6 +105,7 @@ function addEmailAddr(emailAddr) {
 	$.post("./anime/subscribe", {"action": "subscribe", "email-addr": emailAddr}, function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		$("#error-msg").html(json["result"]);
+		hideLoadingBar();
 	});
 }
 
@@ -110,5 +113,14 @@ function delEmailAddr(emailAddr) {
 	$.post("./anime/unsubscribe", {"action": "unsubscribe", "email-addr": emailAddr}, function(response) {
 		var json = JSON.parse(JSON.stringify(response));
 		$("#error-msg").html(json["result"]);
+		hideLoadingBar();
 	});
+}
+
+function showLoadingBar() {
+	$.mobile.loading("show");
+}
+
+function hideLoadingBar() {
+	$.mobile.loading("hide");
 }
