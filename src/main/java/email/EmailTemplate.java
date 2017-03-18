@@ -14,6 +14,7 @@ public class EmailTemplate {
 		strBuilder.append("<html xmlns='http://www.w3.org/1999/xhtml'>");
 		strBuilder.append("<head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><title>動漫電子報</title>");
 		strBuilder.append("<style type='text/css'>");
+		strBuilder.append("a:link {color: blue;}a:link {color: red;}a:active {color: orange;}");
 		strBuilder.append("body{padding-top:0!important;padding-bottom:0!important;padding-top:0!important;padding-bottom:0!important;margin:0!important;width:100%!important;-webkit-text-size-adjust:100%!important;-ms-text-size-adjust:100%!important;-webkit-font-smoothing:antialiased!important}");
 		strBuilder.append(".tableContent img{border:0!important;display:block!important;outline:none!important}a{color:#382f2e}p,h1{color:#382f2e;margin:0}p{text-align:left;color:#999;font-size:14px;font-weight:normal;line-height:19px}a.link1{color:#382f2e}a.link2{font-size:16px;text-decoration:none;color:#fff}h2{text-align:left;color:#222;font-size:19px;font-weight:normal}div,p,ul,h1{margin:0}.bgBody{background:#fff}.bgItem{background:#fff}");
 		strBuilder.append("@media only screen and (max-width:480px){table[class='MainContainer'],td[class='cell']{width:100%!important;height:auto!important}td[class='specbundle']{width:100%!important;float:left!important;font-size:13px!important;line-height:17px!important;display:block!important;padding-bottom:15px!important}");
